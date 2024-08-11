@@ -8,10 +8,10 @@ export default class Settings {
     static WINDOW_GAP = 'window-tile-gap';
 
     static KEY_TILE = "tile-hotkey";
-    static KEY_MOVE_RIGHT = "move-right-hotkey";
-    static KEY_MOVE_LEFT = "move-left-hotkey";
-    static KEY_MOVE_UP = "move-up-hotkey";
-    static KEY_MOVE_DOWN = "move-down-hotkey";
+    static KEY_SWITCH_RIGHT = "switch-right-hotkey";
+    static KEY_SWITCH_LEFT = "switch-left-hotkey";
+    static KEY_SWITCH_UP = "switch-up-hotkey";
+    static KEY_SWITCH_DOWN = "switch-down-hotkey";
 
     static initialize(settings) {
         this._settings = settings;

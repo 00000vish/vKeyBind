@@ -38,7 +38,7 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         const ultraWideSwitch = this._buildSwitchRow(
             Settings.ULTRA_WIDE_MODE,
             'UltraWide Mode',
-            'Maximize the first opened window only vertically.',
+            'Vertically maximize first opened window in Maxmize Mode, else centers the window.',
         );
         settingGroup.add(ultraWideSwitch);
 

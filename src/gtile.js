@@ -1,34 +1,33 @@
 import GObject from 'gi://GObject';
-import Setting from './helpers/settings.js';
+import Tiler from './models/tiler.js'
+import Switcher from './models/switcher.js'
+import KeyBinds from './models/keybinds.js';
 
 export default GObject.registerClass(
     class Gtile extends GObject.Object {
-        _createdSignal;
-        _focusedSignal;
+        _tiler;
+        _switcher;
+        
+        _keybinds;
 
         constructor() {
             super()
 
-            this._createdSignal = global.display.connect('window-created', this._windowcreated.bind(this));
-            // this._focusedSignal = global.display.connect('notify::focus-window', this._onWindowFocusChanged.bind(this));
+            this._tiler = new Tiler();
+            this._switcher = new Switcher();
+            
+            this._keybinds = new KeyBinds();
+            this._keybinds.tileCallback = this._tiler.tile;
+            this._keybinds.switchCallbackRight = this._switcher.switchRight;
+            this._keybinds.switchCallbackLeft = this._switcher.switchLeft;
+            this._keybinds.switchCallbackUp = this._switcher.switchUp;
+            this._keybinds.switchCallbackDown = this._switcher.switchDown;
         }
 
-        _windowcreated(_, window) {
-            try {
-                if (!Setting.isMaximizeMode()) {
-                    return;
-                }
-
-                let maximizeMode
-                let workspace = window.get_workspace();
-
-
-
-            } catch (error) {
-                logger(error.toString());
-                logger(error.stack);
-            }
+        destroy() {
+            this._tiler.destroy();
+            this._switcher.destroy();
+            this._keybinds.destroy();
         }
     }
-
 );
