@@ -1,0 +1,9 @@
+{
+    "name": "gtile",
+    "description": "Window management tools extension.",
+    "uuid": "gtile@00000vish",
+    "shell-version": ["46"],
+    "version": "1.0.0",
+    "url": "https://github.com/00000vish/gtile",
+    "settings-schema": "org.gnome.shell.extensions.gtile"
+}

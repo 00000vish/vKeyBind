@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="gnome-shell-extensions">
+    <schema path="/org/gnome/shell/extensions/gtile/" id="org.gnome.shell.extensions.gtile">
+        <key name="maximize-mode" type="b">
+            <default>true</default>
+            <summary>Maximize the first opened window.</summary>
+            <description>Maximize the first opened window.</description>
+        </key>
+        <key name="ultra-wide-mode" type="b">
+            <default>true</default>
+            <summary></summary>
+            <description>Maximize the first opened window only vertically.</description>
+        </key>
+        <key name="window-tile-gap" type="u">
+            <default>16</default>
+            <summary>Window tile gaps</summary>
+            <description>Window tile gaps.</description>
+        </key>
+
+        <!-- keybindings -->
+        <key name="tile-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Super>W']]]></default>
+			 <summary>Hotkey to open the cool stuff.</summary>
+		</key>
+        <key name="move-right-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Super>L']]]></default>
+			 <summary>Hotkey to open the cool stuff.</summary>
+		</key>
+        <key name="move-left-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Super>H']]]></default>
+			 <summary>Hotkey to open the cool stuff.</summary>
+		</key>
+        <key name="move-up-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Super>J']]]></default>
+			 <summary>Hotkey to open the cool stuff.</summary>
+		</key>
+        <key name="move-down-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Super>K']]]></default>
+			 <summary>Hotkey to open the cool stuff.</summary>
+		</key>
+    </schema>
+</schemalist>
