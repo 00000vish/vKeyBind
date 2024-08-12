@@ -6,7 +6,7 @@ export default (data) => {
     let line = data;
 
     if (typeof line === 'object') {
-        var obj = line;
+        let obj = line;
         line = JSON.stringify(obj)
         line += Object.getOwnPropertyNames(obj)
     }

@@ -22,7 +22,7 @@ export function getScreenSize(workspace) {
 }
 
 export function splitUltraWide(screen) {
-    var splits = splitScreenHorizontal(screen, 4);
+    let splits = splitScreenHorizontal(screen, 4);
 
     return _combineScreenSizes(splits[1], splits[2]);
 }

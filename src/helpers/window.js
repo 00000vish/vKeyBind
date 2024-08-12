@@ -32,5 +32,7 @@ export function maximizeWindow(window) {
 }
 
 export function focusWindow(window) {
+    window.make_above();
     window.focus(global.get_current_time());
+    window.unmake_above();
 }

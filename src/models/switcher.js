@@ -1,7 +1,5 @@
 import GObject from 'gi://GObject';
-// import Setting from './helpers/settings.js';
-// import * as windowHelper from './helpers/window.js'
-// import * as screenHelper from './helpers/screen.js'
+import * as windowHelper from '../helpers/window.js'
 import logger from '../helpers/logger.js';
 
 export default GObject.registerClass(
@@ -11,50 +9,75 @@ export default GObject.registerClass(
             super()
         }
 
-        _getWindowsSizeInfo() {
+        _getWindowsSizeInfo(vertical) {
             let window = global.display.get_focus_window();
             let workspace = window.get_workspace();
             let windows = workspace.list_windows();
 
-            let windowIndex = 0;
-
             let sizeInfos = [];
-            for (let v = 0; v < windows.length; v++) {
-                if (windows[v] === window)
-                    windowIndex = v;
-
-                let size = windows[v].get_frame_rect();
+            for (let item of windows) {
+                let size = item.get_frame_rect();
                 sizeInfos.push(
                     {
-                        window: window[v],
+                        window: item,
                         size: size
                     }
                 );
             }
 
-            return windowIndex, sizeInfos.sort(this._sortWindow);
+            sizeInfos = sizeInfos.sort(this._sortWindow.bind(vertical));
+
+            let windowIndex = sizeInfos.findIndex(x => x.window === window);
+
+            return [windowIndex, sizeInfos];
         }
 
-        _sortWindow(windowA, windowB) {
-
+        _sortWindow(windowA, windowB, vertical) {
+            if (vertical) {
+                return windowA.size.y - windowB.size.y;
+            } else {
+                return windowA.size.x - windowB.size.x;
+            }
         }
 
         switchRight() {
-            var windowIndex, windowInfos = this._getWindowsSizeInfo();
+            let [windowIndex, windowInfos] = this._getWindowsSizeInfo(false);
 
-            logger("swtich right");
+            windowIndex += 1;
+            if (windowIndex > windowInfos.length)
+                return;
+
+            windowHelper.focusWindow(windowInfos[windowIndex].window);
         }
 
         switchLeft() {
-            logger("swtich left");
+            let [windowIndex, windowInfos] = this._getWindowsSizeInfo(false);
+
+            windowIndex -= 1;
+            if (windowIndex < 0)
+                return;
+
+            windowHelper.focusWindow(windowInfos[windowIndex].window);
         }
 
         switchUp() {
-            logger("swtich up");
+            let [windowIndex, windowInfos] = this._getWindowsSizeInfo(true);
+
+            windowIndex += 1;
+            if (windowIndex > windowInfos.length)
+                return;
+
+            windowHelper.focusWindow(windowInfos[windowIndex].window);
         }
 
         switchDown() {
-            logger("swtich down");
+            let [windowIndex, windowInfos] = this._getWindowsSizeInfo(true);
+
+            windowIndex -= 1;
+            if (windowIndex < 0)
+                return;
+
+            windowHelper.focusWindow(windowInfos[windowIndex].window);
         }
 
         destroy() {
