@@ -27,10 +27,16 @@ export default GObject.registerClass(
         }
 
         _sortWindow(windowA, windowB, vertical) {
+            let aOffsetY = windowA.size.height;
+            let aOffsetX = windowA.size.width;
+
+            let bOffsetY = windowB.size.height;
+            let bOffsetX = windowB.size.width;
+
             if (vertical) {
-                return windowA.size.y - windowB.size.y;
+                return (windowA.size.y + aOffsetY) - (windowB.size.y + bOffsetY);
             } else {
-                return windowA.size.x - windowB.size.x;
+                return (windowA.size.x + aOffsetX) - (windowB.size.x + bOffsetX);
             }
         }
 
@@ -38,7 +44,7 @@ export default GObject.registerClass(
             let window = global.display.get_focus_window();
             let workspace = window.get_workspace();
 
-            let sortCallback = this._sortWindow.bind(vertical)
+            let sortCallback = (windowA, windowB) => this._sortWindow(windowA, windowB, vertical)
             let windowSizes = screenHelper.getWindowSizes(workspace, sortCallback);
 
             let currentIndex = windowSizes.findIndex(x => x.window === window);
@@ -47,7 +53,7 @@ export default GObject.registerClass(
         }
 
         _switch(shiftIndex, vertical) {
-            let [index, windowSizes] = this._getCurrentWindowSizes(vertical);
+            let [index, windowSizes] = this._getCurrentWindowSizes(vertical, shiftIndex > 0);
 
             index = (windowSizes.length + index + shiftIndex) % windowSizes.length;
 

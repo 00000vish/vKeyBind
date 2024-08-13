@@ -62,6 +62,9 @@ export function splitScreenRows(screen, splitCount) {
 }
 
 function _splitScreen(splitCount, screenSize, newWidth, newHeight, vertical) {
+    if (splitCount === 0)
+        return [screenSize];
+
     let newSizes = []
 
     let x = screenSize.x;
