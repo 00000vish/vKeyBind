@@ -5,7 +5,10 @@ export default class Settings {
 
     static MAXIMIZE_MODE = 'maximize-mode';
     static ULTRA_WIDE_MODE = 'ultra-wide-mode';
+
     static WINDOW_GAP = 'window-tile-gap';
+    static WINDOW_MAX_COLUMNS = 'window-max-column-tiles';
+    static WINDOW_MAX_ROWS = 'window-max-row-tiles';
 
     static KEY_TILE = "tile-hotkey";
     static KEY_SWITCH_RIGHT = "switch-right-hotkey";
@@ -18,17 +21,38 @@ export default class Settings {
     }
 
     static isMaximizeMode() {
-        if (!this._settings) 
+        if (!this._settings)
             return true;
 
         return this._settings.get_boolean(this.MAXIMIZE_MODE);
     }
 
     static isUltraWideMode() {
-        if (!this._settings) 
+        if (!this._settings)
             return false;
 
         return this._settings.get_boolean(this.ULTRA_WIDE_MODE);
+    }
+
+    static getWindowGap(){
+        if (!this._settings)
+            return 16;
+
+        return this._settings?.get_uint(this.WINDOW_GAP);
+    }
+
+    static getMaxColumns(){
+        if (!this._settings)
+            return 4;
+
+        return this._settings?.get_uint(this.WINDOW_MAX_COLUMNS);
+    }
+
+    static getMaxRows(){
+        if (!this._settings)
+            return 2;
+
+        return this._settings?.get_uint(this.WINDOW_MAX_ROWS);
     }
 
     static bind(key, object, property, flags) {

@@ -16,6 +16,16 @@
             <summary>Window tile gaps</summary>
             <description>Window tile gaps.</description>
         </key>
+        <key name="window-max-column-tiles" type="u">
+            <default>4</default>
+            <summary>Maximum columns of tiled windows.</summary>
+            <description>Maximum columns of tiled windows.</description>
+        </key>
+        <key name="window-max-row-tiles" type="u">
+            <default>2</default>
+            <summary>Maximum rows of tiled windows.</summary>
+            <description>Maximum rows of tiled windows.</description>
+        </key>
 
         <!-- keybindings -->
         <key name="tile-hotkey" type="as">

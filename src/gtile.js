@@ -17,7 +17,7 @@ export default GObject.registerClass(
             this._switcher = new Switcher();
 
             this._keybinds = new KeyBinds();
-            this._keybinds.tileCallback = this._tiler.tile;
+            this._keybinds.tileCallback = (this._tiler.tile).bind(this._tiler);
             this._keybinds.switchCallbackRight = (this._switcher.switchRight).bind(this._switcher);
             this._keybinds.switchCallbackLeft = (this._switcher.switchLeft).bind(this._switcher);
             this._keybinds.switchCallbackUp = (this._switcher.switchUp).bind(this._switcher);

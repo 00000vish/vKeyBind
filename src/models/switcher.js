@@ -1,5 +1,6 @@
 import GObject from 'gi://GObject';
 import * as windowHelper from '../helpers/window.js'
+import * as screenHelper from '../helpers/screen.js'
 import logger from '../helpers/logger.js';
 
 export default GObject.registerClass(
@@ -9,27 +10,20 @@ export default GObject.registerClass(
             super()
         }
 
-        _getWindowsSizeInfo(vertical) {
-            let window = global.display.get_focus_window();
-            let workspace = window.get_workspace();
-            let windows = workspace.list_windows();
+        switchRight() {
+            this._switch(1, false);
+        }
 
-            let sizeInfos = [];
-            for (let item of windows) {
-                let size = item.get_frame_rect();
-                sizeInfos.push(
-                    {
-                        window: item,
-                        size: size
-                    }
-                );
-            }
+        switchLeft() {
+            this._switch(-1, false);
+        }
 
-            sizeInfos = sizeInfos.sort(this._sortWindow.bind(vertical));
+        switchUp() {
+            this._switch(1, true);
+        }
 
-            let windowIndex = sizeInfos.findIndex(x => x.window === window);
-
-            return [windowIndex, sizeInfos];
+        switchDown() {
+            this._switch(-1, true);
         }
 
         _sortWindow(windowA, windowB, vertical) {
@@ -40,47 +34,26 @@ export default GObject.registerClass(
             }
         }
 
-        switchRight() {
-            let [windowIndex, windowInfos] = this._getWindowsSizeInfo(false);
+        _getCurrentWindowSizes(vertical) {
+            let window = global.display.get_focus_window();
+            let workspace = window.get_workspace();
 
-            windowIndex += 1;
-            if (windowIndex > windowInfos.length)
-                return;
+            let sortCallback = this._sortWindow.bind(vertical)
+            let windowSizes = screenHelper.getWindowSizes(workspace, sortCallback);
 
-            windowHelper.focusWindow(windowInfos[windowIndex].window);
+            let currentIndex = windowSizes.findIndex(x => x.window === window);
+
+            return [currentIndex, windowSizes];
         }
 
-        switchLeft() {
-            let [windowIndex, windowInfos] = this._getWindowsSizeInfo(false);
+        _switch(shiftIndex, vertical) {
+            let [index, windowSizes] = this._getCurrentWindowSizes(vertical);
 
-            windowIndex -= 1;
-            if (windowIndex < 0)
-                return;
+            index = (windowSizes.length + index + shiftIndex) % windowSizes.length;
 
-            windowHelper.focusWindow(windowInfos[windowIndex].window);
+            windowHelper.focusWindow(windowSizes[index].window);
         }
 
-        switchUp() {
-            let [windowIndex, windowInfos] = this._getWindowsSizeInfo(true);
-
-            windowIndex += 1;
-            if (windowIndex > windowInfos.length)
-                return;
-
-            windowHelper.focusWindow(windowInfos[windowIndex].window);
-        }
-
-        switchDown() {
-            let [windowIndex, windowInfos] = this._getWindowsSizeInfo(true);
-
-            windowIndex -= 1;
-            if (windowIndex < 0)
-                return;
-
-            windowHelper.focusWindow(windowInfos[windowIndex].window);
-        }
-
-        destroy() {
-        }
+        destroy() { }
     }
 );

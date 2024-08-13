@@ -3,6 +3,7 @@ import Setting from '../helpers/settings.js';
 import * as windowHelper from '../helpers/window.js'
 import * as screenHelper from '../helpers/screen.js'
 import logger from '../helpers/logger.js';
+import Settings from '../helpers/settings.js';
 
 export default GObject.registerClass(
     class Tiler extends GObject.Object {
@@ -18,17 +19,55 @@ export default GObject.registerClass(
         }
 
         tile() {
+            try {
+                this._tile();
+            } catch (error) {
+                logger(error.toString());
+                logger(error.stack)
+            }
+        }
+
+        _tile() {
             let window = global.display.get_focus_window();
             if (!window) {
                 return;
             }
 
             let workspace = window.get_workspace();
-            let windows = workspace.list_windows();
-            let screenSize = screenHelper.getScreenSize(workspace);
-            let screenSplits = getSizeColumn(screenSize, windows.length);
+            let windows = screenHelper.getWindowSizes(workspace, this._sortWindow)
 
-            logger("TODO: tile");
+            let maxCols = Setting.getMaxColumns();
+            let maxRows = Settings.getMaxRows();
+            let maxWindows = maxCols * maxRows;
+
+            if (windows.length > maxWindows) {
+                return;
+            }
+
+            let screenSize = screenHelper.getScreenSize(workspace);
+
+            let splitSizes = screenHelper.splitScreenColumns(screenSize, windows.length);
+            if (windows.length > maxCols) {
+                splitSizes = [];
+                let rowSizes = screenHelper.splitScreenRows(screenSize, maxRows);
+                for (let rowSize of rowSizes) {
+                    let colSplits = screenHelper.splitScreenColumns(rowSize, maxCols);
+                    splitSizes = splitSizes.concat(colSplits)
+                }
+            }
+
+            let windowIndex = 0;
+
+            for (let screenSplit of splitSizes) {
+                if (windowIndex >= windows.length) {
+                    break;
+                }
+                windowHelper.resizeWindow(windows[windowIndex++].window, screenSplit)
+            }
+        }
+
+        _sortWindow(windowA, windowB) {
+            return windowA.size.x + windowB.size.x + windowA.size.y - windowB.size.y;
         }
 
         _windowcreated(_, window) {

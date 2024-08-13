@@ -44,10 +44,24 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
 
         const windowTileGap = this._buildSpinButtonRow(
             Settings.WINDOW_GAP,
-            'Window tile gaps',
+            'Window Tile Gaps',
             'Gaps between windows when tiled.',
         );
         settingGroup.add(windowTileGap);
+
+        const windowMaxColumn = this._buildSpinButtonRow(
+            Settings.WINDOW_MAX_COLUMNS,
+            'Max Column Tiles',
+            'Maximum columns of tiled windows.',
+        );
+        settingGroup.add(windowMaxColumn);
+
+        const windowMaxRow = this._buildSpinButtonRow(
+            Settings.WINDOW_MAX_ROWS,
+            'Max Row Tiles',
+            'Maximum rows of tiled windows.',
+        );
+        settingGroup.add(windowMaxRow);
 
         const footerGroup = new Adw.PreferencesGroup();
         prefsPage.add(footerGroup);

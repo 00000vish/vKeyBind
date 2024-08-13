@@ -1,6 +1,25 @@
 import logger from './logger.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
+export function getWindowSizes(workspace, sortCallback = null) {
+    let windows = workspace.list_windows();
+
+    let windowSizes = [];
+    for (let item of windows) {
+        let size = item.get_frame_rect();
+        windowSizes.push(
+            {
+                window: item,
+                size: size
+            }
+        );
+    }
+
+    if (!sortCallback)
+        return windowSizes;
+
+    return windowSizes.sort(sortCallback);
+}
 
 export function getScreenSize(workspace) {
     logger(`Getting monitor info for workspace ${workspace.index()}`);
@@ -22,12 +41,12 @@ export function getScreenSize(workspace) {
 }
 
 export function splitUltraWide(screen) {
-    let splits = splitScreenHorizontal(screen, 4);
+    let splits = splitScreenColumns(screen, 4);
 
     return _combineScreenSizes(splits[1], splits[2]);
 }
 
-export function splitScreenHorizontal(screen, splitCount) {
+export function splitScreenColumns(screen, splitCount) {
     let newWidth = screen.width / splitCount;
     let newHeight = screen.height;
 
@@ -35,7 +54,7 @@ export function splitScreenHorizontal(screen, splitCount) {
 }
 
 
-export function splitScreenVertical(screen, splitCount) {
+export function splitScreenRows(screen, splitCount) {
     let newWidth = screen.width;
     let newHeight = screen.height / splitCount;
 
@@ -49,8 +68,9 @@ function _splitScreen(splitCount, screenSize, newWidth, newHeight, vertical) {
     let y = screenSize.y;
 
     for (let v = 0; v < splitCount; v++) {
-        var size = _createSize(x, y, newWidth, newHeight);
-        newSizes.push(size);
+        newSizes.push(
+            _createSize(x, y, newWidth, newHeight)
+        );
 
         if (vertical) {
             y += newHeight;
