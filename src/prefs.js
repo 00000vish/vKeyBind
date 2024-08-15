@@ -38,6 +38,13 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         );
         settingGroup.add(ultraWideSwitch);
 
+        const resizeAmountRow = this._buildSpinButtonRow(
+            Settings.WINDOW_RESIZE_AMOUNT,
+            'Resize Amount',
+            'Window resize amount',
+        );
+        settingGroup.add(resizeAmountRow);
+
         const tileGroup = new Adw.PreferencesGroup({
             title: 'Tiling Settings',
             description: `Configure tiling settings.`,

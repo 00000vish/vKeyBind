@@ -27,7 +27,7 @@ export default GObject.registerClass(
             let workspace = window.get_workspace();
 
             if (Settings.isGridTileMode()) {
-                this._gridTile(window, workspace);
+                this._gridTile(workspace);
             } else {
                 this._defaultTile(workspace);
             }
@@ -68,7 +68,7 @@ export default GObject.registerClass(
             }
         }
 
-        _gridTile(window, workspace) {
+        _gridTile(workspace) {
             let windows = screenHelper.getWindowSizes(workspace, true, this._sortWindow)
 
             let maxCols = Setting.getMaxColumns();

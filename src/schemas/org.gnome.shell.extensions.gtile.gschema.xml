@@ -26,6 +26,11 @@
             <summary>Maximum rows of tiled windows.</summary>
             <description>Maximum rows of tiled windows.</description>
         </key>
+        <key name="window-resize-amount" type="u">
+            <default>10</default>
+            <summary>Window resize amount.</summary>
+            <description>Window resize amount.</description>
+        </key>
 
         <!-- keybindings -->
         <key name="tile-hotkey" type="as">
@@ -47,6 +52,22 @@
         <key name="switch-down-hotkey" type="as">
 			<default><![CDATA[['<Shift><Super>J']]]></default>
 			 <summary>Switch for to down of focused window.</summary>
+		</key>
+        <key name="shrink-x-hotkey" type="as">
+			<default><![CDATA[['<CTRL><Super>H']]]></default>
+			 <summary>Shrink focused window in X axis.</summary>
+		</key>
+        <key name="grow-x-hotkey" type="as">
+			<default><![CDATA[['<CTRL><Super>L']]]></default>
+			 <summary>Grow focused window in X axis</summary>
+		</key>
+        <key name="shrink-y-hotkey" type="as">
+			<default><![CDATA[['<CTRL><Super>K']]]></default>
+			 <summary>Shrink focused window in Y axis.</summary>
+		</key>
+        <key name="grow-y-hotkey" type="as">
+			<default><![CDATA[['<CTRL><Super>J']]]></default>
+			 <summary>Grow focused window in Y axis</summary>
 		</key>
     </schema>
 </schemalist>

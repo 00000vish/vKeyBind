@@ -5,6 +5,7 @@ export default class Settings {
     static ULTRA_WIDE_MODE = 'ultra-wide-mode';
     static GRID_TILE_MODE = 'grid-tile-mode';
 
+    static WINDOW_RESIZE_AMOUNT = 'window-resize-amount';
     static WINDOW_MAX_COLUMNS = 'window-max-column-tiles';
     static WINDOW_MAX_ROWS = 'window-max-row-tiles';
 
@@ -13,6 +14,10 @@ export default class Settings {
     static KEY_SWITCH_LEFT = "switch-left-hotkey";
     static KEY_SWITCH_UP = "switch-up-hotkey";
     static KEY_SWITCH_DOWN = "switch-down-hotkey";
+    static KEY_SHRINK_X = "shrink-x-hotkey";
+    static KEY_SHRINK_Y = "shrink-y-hotkey";
+    static KEY_GROW_X = "grow-x-hotkey";
+    static KEY_GROW_Y = "grow-y-hotkey";
 
     static initialize(settings) {
         this._settings = settings;
@@ -37,6 +42,13 @@ export default class Settings {
             return false;
 
         return this._settings.get_boolean(this.GRID_TILE_MODE);
+    }
+
+    static getResizeAmount(){
+        if (!this._settings)
+            return 4;
+
+        return this._settings?.get_uint(this.WINDOW_RESIZE_AMOUNT);
     }
 
     static getMaxColumns(){

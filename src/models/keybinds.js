@@ -10,10 +10,16 @@ export default GObject.registerClass(
         _settings;
 
         _tileCallback;
+
         _switchCallbackRight;
         _switchCallbackLeft;
         _switchCallbackUp;
         _switchCallbackDown;
+
+        _growCallbackX;
+        _growCallbackY;
+        _shrinkCallbackX;
+        _shrinkCallbackY;
 
         constructor() {
             super();
@@ -25,6 +31,10 @@ export default GObject.registerClass(
             this._setupKeyBinds(Settings.KEY_SWITCH_LEFT, () => this._switchCallbackLeft?.());
             this._setupKeyBinds(Settings.KEY_SWITCH_UP, () => this._switchCallbackUp?.());
             this._setupKeyBinds(Settings.KEY_SWITCH_DOWN, () => this._switchCallbackDown?.());
+            this._setupKeyBinds(Settings.KEY_GROW_X, () => this._growCallbackX?.());
+            this._setupKeyBinds(Settings.KEY_GROW_Y, () => this._growCallbackY?.());
+            this._setupKeyBinds(Settings.KEY_SHRINK_X, () => this._shrinkCallbackX?.());
+            this._setupKeyBinds(Settings.KEY_SHRINK_Y, () => this._shrinkCallbackY?.());
         }
 
         _setupKeyBinds(settingKey, callback) {
@@ -72,12 +82,44 @@ export default GObject.registerClass(
             this._switchCallbackDown = value;
         }
 
+        /**
+        * @param {Function} value
+        */
+        set growCallbackX(value) {
+            this._growCallbackX = value;
+        }
+        
+        /**
+        * @param {Function} value
+        */
+        set growCallbackY(value) {
+            this._growCallbackY = value;
+        }
+
+        /**
+        * @param {Function} value
+        */
+        set shrinkCallbackX(value) {
+            this._shrinkCallbackX = value;
+        }
+
+        /**
+        * @param {Function} value
+        */
+        set shrinkCallbackY(value) {
+            this._shrinkCallbackY = value;
+        }
+
         destroy() {
             Main.wm.removeKeybinding(Settings.KEY_TILE);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_RIGHT);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_LEFT);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_UP);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_DOWN);
+            Main.wm.removeKeybinding(Settings.KEY_GROW_X);
+            Main.wm.removeKeybinding(Settings.KEY_GROW_Y);
+            Main.wm.removeKeybinding(Settings.KEY_SHRINK_X);
+            Main.wm.removeKeybinding(Settings.KEY_SHRINK_Y);
         }
     }
 );
