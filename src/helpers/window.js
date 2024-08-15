@@ -1,5 +1,23 @@
 import Meta from 'gi://Meta';
 
+export function getWindowsInWorkspace(workspace, activeMonitorOnly) {
+    let display = workspace.get_display();
+    let currentMonitor = display.get_current_monitor();
+
+    let windows = workspace.list_windows();
+
+    let windowList = [];
+    for (let window of windows) {
+        let monitor = window.get_monitor();
+        if (monitor !== currentMonitor && activeMonitorOnly)
+            continue;
+
+        windowList.push(window);
+    }
+
+    return windowList;
+}
+
 export function getWorkspace(window) {
     return window.get_workspace();
 }
@@ -12,7 +30,7 @@ export function getWindowSize(window) {
     return window.get_frame_rect();
 }
 
-export function invokeOnWinowReady(window, callback){
+export function invokeOnWinowReady(window, callback) {
     let windowActor = window.get_compositor_private();
 
     windowActor.remove_all_transitions();

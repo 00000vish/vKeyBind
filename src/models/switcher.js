@@ -18,11 +18,11 @@ export default GObject.registerClass(
         }
 
         switchUp() {
-            this._switch(1, true);
+            this._switch(-1, true);
         }
 
         switchDown() {
-            this._switch(-1, true);
+            this._switch(1, true);
         }
 
         _sortWindow(windowA, windowB, vertical) {

@@ -119,8 +119,8 @@ export default GObject.registerClass(
                 return;
             }
 
-            let workspace = window.get_workspace();
-            if (workspace.list_windows().length !== 1) {
+            let workspace = windowHelper.getWorkspace(window);
+            if (windowHelper.getWindowsInWorkspace(workspace, true).length !== 1) {
                 return;
             }
 
