@@ -9,7 +9,7 @@
         <key name="ultra-wide-mode" type="b">
             <default>true</default>
             <summary></summary>
-            <description>Vertically maximize first opened window in Maxmize Mode, else centers the window.</description>
+            <description>Vertically maximize or centers the first window.</description>
         </key>
         <key name="window-tile-gap" type="u">
             <default>16</default>
