@@ -25,6 +25,11 @@ Gnome extension that allows user switch windows like a tiling window manager, an
 
 ## Install <a name="install"></a>
 
+1. ```git clone https://github.com/00000vish/gtile```
+2. ```cd ./gtile ``` go inside the project directory.
+3. (optional) ```vim ./src/schemas/org.gnome.shell.extensions.gtile.gschema``` to change keybinds.
+4. ```./install.sh``` to install the gnome extension. 
+
 
 
 ## TODO <a name="todo"></a>
