@@ -19,8 +19,8 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         window.add(prefsPage);
 
         const settingGroup = new Adw.PreferencesGroup({
-            title: 'Settings',
-            description: `Configure ${this.metadata["name"]} settings.`,
+            title: 'Window Settings',
+            description: `Configure window settings.`,
         });
         prefsPage.add(settingGroup);
 
@@ -38,26 +38,32 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         );
         settingGroup.add(ultraWideSwitch);
 
-        const windowTileGap = this._buildSpinButtonRow(
-            Settings.WINDOW_GAP,
-            'Window Tile Gaps',
-            'Gaps between windows when tiled.',
+        const tileGroup = new Adw.PreferencesGroup({
+            title: 'Tiling Settings',
+            description: `Configure tiling settings.`,
+        });
+        prefsPage.add(tileGroup);
+
+        const gridTileSwitch = this._buildSwitchRow(
+            Settings.GRID_TILE_MODE,
+            'Grid Tile Mode',
+            'Tile windows in grid.',
         );
-        settingGroup.add(windowTileGap);
+        tileGroup.add(gridTileSwitch);
 
         const windowMaxColumn = this._buildSpinButtonRow(
             Settings.WINDOW_MAX_COLUMNS,
             'Max Column Tiles',
             'Maximum columns of tiled windows.',
         );
-        settingGroup.add(windowMaxColumn);
+        tileGroup.add(windowMaxColumn);
 
         const windowMaxRow = this._buildSpinButtonRow(
             Settings.WINDOW_MAX_ROWS,
             'Max Row Tiles',
             'Maximum rows of tiled windows.',
         );
-        settingGroup.add(windowMaxRow);
+        tileGroup.add(windowMaxRow);
 
         const footerGroup = new Adw.PreferencesGroup();
         prefsPage.add(footerGroup);

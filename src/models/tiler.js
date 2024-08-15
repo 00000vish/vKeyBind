@@ -3,6 +3,7 @@ import Setting from '../helpers/settings.js';
 import * as windowHelper from '../helpers/window.js'
 import * as screenHelper from '../helpers/screen.js'
 import Settings from '../helpers/settings.js';
+import logger from '../helpers/logger.js'
 
 export default GObject.registerClass(
     class Tiler extends GObject.Object {
@@ -24,6 +25,50 @@ export default GObject.registerClass(
             }
 
             let workspace = window.get_workspace();
+
+            if (Settings.isGridTileMode()) {
+                this._gridTile(window, workspace);
+            } else {
+                this._defaultTile(workspace);
+            }
+        }
+
+        _defaultTile(workspace) {
+            let screenSize = screenHelper.getScreenSize(workspace);
+            let windowInfos = screenHelper.getWindowSizes(workspace, true, this._sortWindow)
+
+            let initialWidth = 0;
+            let initialHeight = 0;
+
+            let maxWidth = windowInfos.reduce(
+                (sum, currentWindow) => sum + currentWindow.size.width,
+                initialWidth,
+            );
+
+            let maxHeight = windowInfos.reduce(
+                (max, currentWindow) => { return max > currentWindow.size.height ? max : currentWindow.size.height },
+                initialHeight,
+            );
+
+            let windowX = (screenSize.width / 2) - (maxWidth / 2);
+            let windowY = (screenSize.height / 2) - (maxHeight / 2);
+
+            if (screenSize.width < maxWidth) {
+                return;
+            }
+
+            for (let item of windowInfos) {
+
+                item.size.x = windowX;
+                item.size.y = windowY;
+
+                windowHelper.resizeWindow(item.window, item.size);
+
+                windowX += item.size.width;
+            }
+        }
+
+        _gridTile(window, workspace) {
             let windows = screenHelper.getWindowSizes(workspace, true, this._sortWindow)
 
             let maxCols = Setting.getMaxColumns();

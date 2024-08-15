@@ -1,12 +1,10 @@
-import Gio from 'gi://Gio';
-
 export default class Settings {
     static _settings;
 
     static MAXIMIZE_MODE = 'maximize-mode';
     static ULTRA_WIDE_MODE = 'ultra-wide-mode';
+    static GRID_TILE_MODE = 'grid-tile-mode';
 
-    static WINDOW_GAP = 'window-tile-gap';
     static WINDOW_MAX_COLUMNS = 'window-max-column-tiles';
     static WINDOW_MAX_ROWS = 'window-max-row-tiles';
 
@@ -34,11 +32,11 @@ export default class Settings {
         return this._settings.get_boolean(this.ULTRA_WIDE_MODE);
     }
 
-    static getWindowGap(){
+    static isGridTileMode() {
         if (!this._settings)
-            return 16;
+            return false;
 
-        return this._settings?.get_uint(this.WINDOW_GAP);
+        return this._settings.get_boolean(this.GRID_TILE_MODE);
     }
 
     static getMaxColumns(){

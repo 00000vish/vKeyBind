@@ -7,14 +7,14 @@
             <description>Maximize the first opened window.</description>
         </key>
         <key name="ultra-wide-mode" type="b">
-            <default>true</default>
+            <default>false</default>
             <summary></summary>
             <description>Vertically maximize or centers the first window.</description>
         </key>
-        <key name="window-tile-gap" type="u">
-            <default>16</default>
-            <summary>Window tile gaps</summary>
-            <description>Window tile gaps.</description>
+         <key name="grid-tile-mode" type="b">
+            <default>false</default>
+            <summary></summary>
+            <description>Tile windows in grid.</description>
         </key>
         <key name="window-max-column-tiles" type="u">
             <default>4</default>
@@ -33,19 +33,19 @@
 			 <summary>Tile windows opened in current workspace.</summary>
 		</key>
         <key name="switch-right-hotkey" type="as">
-			<default><![CDATA[['<Ctrl><Super>L']]]></default>
+			<default><![CDATA[['<Shift><Super>L']]]></default>
 			 <summary>Switch for to right of focused window.</summary>
 		</key>
         <key name="switch-left-hotkey" type="as">
-			<default><![CDATA[['<Ctrl><Super>H']]]></default>
+			<default><![CDATA[['<Shift><Super>H']]]></default>
 			 <summary>Switch for to left of focused window.</summary>
 		</key>
         <key name="switch-up-hotkey" type="as">
-			<default><![CDATA[['<Ctrl><Super>K']]]></default>
+			<default><![CDATA[['<Shift><Super>K']]]></default>
 			 <summary>Switch for to up of focused window.</summary>
 		</key>
         <key name="switch-down-hotkey" type="as">
-			<default><![CDATA[['<Ctrl><Super>J']]]></default>
+			<default><![CDATA[['<Shift><Super>J']]]></default>
 			 <summary>Switch for to down of focused window.</summary>
 		</key>
     </schema>
