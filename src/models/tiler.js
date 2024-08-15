@@ -18,12 +18,12 @@ export default GObject.registerClass(
         }
 
         tile() {
-            let window = global.display.get_focus_window();
+            let window = windowHelper.getFocusedWindow();
             if (!window) {
                 return;
             }
 
-            let workspace = window.get_workspace();
+            let workspace = windowHelper.getWorkspace(window);
 
             if (Settings.isGridTileMode()) {
                 this._gridTile(workspace);
@@ -105,19 +105,7 @@ export default GObject.registerClass(
         }
 
         _windowcreated(_, window) {
-            let windowActor = window.get_compositor_private();
-
-            windowActor.remove_all_transitions();
-
-            let signal = windowActor.connect(
-                "first-frame",
-                ((_) => {
-                    this._manageWindow(window);
-
-                    windowActor.disconnect(signal);
-
-                }).bind(this)
-            );
+            windowHelper.invokeOnWinowReady(window, this._manageWindow);
         }
 
         _manageWindow(window) {

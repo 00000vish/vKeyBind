@@ -26,12 +26,12 @@ export default GObject.registerClass(
         }
 
         _resize(grow, vertical) {
-            let window = global.display.get_focus_window();
+            let window = windowHelper.getFocusedWindow();
             if (!window) {
                 return;
             }
 
-            let size = window.get_frame_rect();
+            let size = windowHelper.getWindowSize(window);
             let amount = Settings.getResizeAmount() * (grow ? 1 : -1);
 
             if (vertical) {

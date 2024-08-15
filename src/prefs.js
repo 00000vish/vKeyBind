@@ -74,7 +74,7 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
 
         const footerGroup = new Adw.PreferencesGroup();
         prefsPage.add(footerGroup);
-       
+
         let githubLink = `<a href="https://github.com/00000vish/gtile">GitHub</a>`;
         footerGroup.add(
             new Gtk.Label({

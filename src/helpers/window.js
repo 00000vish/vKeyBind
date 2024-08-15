@@ -1,5 +1,33 @@
 import Meta from 'gi://Meta';
 
+export function getWorkspace(window) {
+    return window.get_workspace();
+}
+
+export function getFocusedWindow() {
+    return global.display.get_focus_window();
+}
+
+export function getWindowSize(window) {
+    return window.get_frame_rect();
+}
+
+export function invokeOnWinowReady(window, callback){
+    let windowActor = window.get_compositor_private();
+
+    windowActor.remove_all_transitions();
+
+    let signal = windowActor.connect(
+        "first-frame",
+        ((_) => {
+            callback(window);
+
+            windowActor.disconnect(signal);
+
+        }).bind(this)
+    );
+}
+
 export function centerWindow(window, size) {
     let windowSize = window.get_frame_rect();
 

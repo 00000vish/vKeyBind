@@ -40,8 +40,8 @@ export default GObject.registerClass(
         }
 
         _getCurrentWindowSizes(vertical) {
-            let window = global.display.get_focus_window();
-            let workspace = window.get_workspace();
+            let window = windowHelper.getFocusedWindow();
+            let workspace = windowHelper.getWorkspace(window);
 
             let sortCallback = (windowA, windowB) => this._sortWindow(windowA, windowB, vertical)
             let windowSizes = screenHelper.getWindowSizes(workspace, false, sortCallback);
