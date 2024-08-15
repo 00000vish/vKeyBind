@@ -24,7 +24,7 @@ export default GObject.registerClass(
             }
 
             let workspace = window.get_workspace();
-            let windows = screenHelper.getWindowSizes(workspace, this._sortWindow)
+            let windows = screenHelper.getWindowSizes(workspace, true, this._sortWindow)
 
             let maxCols = Setting.getMaxColumns();
             let maxRows = Settings.getMaxRows();

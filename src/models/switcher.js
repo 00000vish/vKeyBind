@@ -44,7 +44,7 @@ export default GObject.registerClass(
             let workspace = window.get_workspace();
 
             let sortCallback = (windowA, windowB) => this._sortWindow(windowA, windowB, vertical)
-            let windowSizes = screenHelper.getWindowSizes(workspace, sortCallback);
+            let windowSizes = screenHelper.getWindowSizes(workspace, false, sortCallback);
 
             let currentIndex = windowSizes.findIndex(x => x.window === window);
 

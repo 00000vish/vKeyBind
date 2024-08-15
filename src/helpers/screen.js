@@ -1,14 +1,21 @@
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-export function getWindowSizes(workspace, sortCallback = null) {
+export function getWindowSizes(workspace, matchMonitor, sortCallback = null) {
+    let display = workspace.get_display();
+    let currentMonitor = display.get_current_monitor();
+
     let windows = workspace.list_windows();
 
     let windowSizes = [];
-    for (let item of windows) {
-        let size = item.get_frame_rect();
+    for (let window of windows) {
+        let monitor = window.get_monitor();
+        if (monitor !== currentMonitor && matchMonitor)
+            continue;
+
+        let size = window.get_frame_rect();
         windowSizes.push(
             {
-                window: item,
+                window: window,
                 size: size
             }
         );
@@ -29,8 +36,8 @@ export function getScreenSize(workspace) {
     let topBar = Main.panel;
     let barHeight = topBar.actor.get_height();
 
-    let x = 0;
-    let y = barHeight;
+    let x = monitor.x;
+    let y = monitor.y + barHeight;
     let width = monitor.width;
     let height = monitor.height - barHeight;
 
