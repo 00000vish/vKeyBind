@@ -3,7 +3,6 @@ import Setting from '../helpers/settings.js';
 import * as windowHelper from '../helpers/window.js'
 import * as screenHelper from '../helpers/screen.js'
 import Settings from '../helpers/settings.js';
-import logger from '../helpers/logger.js'
 
 export default GObject.registerClass(
     class Tiler extends GObject.Object {
