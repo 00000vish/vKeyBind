@@ -1,4 +1,3 @@
-import logger from './logger.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 export function getWindowSizes(workspace, sortCallback = null) {
@@ -22,8 +21,6 @@ export function getWindowSizes(workspace, sortCallback = null) {
 }
 
 export function getScreenSize(workspace) {
-    logger(`Getting monitor info for workspace ${workspace.index()}`);
-
     let monitors = Main.layoutManager.monitors;
     let display = workspace.get_display();
     let monitorIndex = display.get_current_monitor();

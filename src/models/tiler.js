@@ -2,7 +2,6 @@ import GObject from 'gi://GObject';
 import Setting from '../helpers/settings.js';
 import * as windowHelper from '../helpers/window.js'
 import * as screenHelper from '../helpers/screen.js'
-import logger from '../helpers/logger.js';
 import Settings from '../helpers/settings.js';
 
 export default GObject.registerClass(
@@ -19,15 +18,6 @@ export default GObject.registerClass(
         }
 
         tile() {
-            try {
-                this._tile();
-            } catch (error) {
-                logger(error.toString());
-                logger(error.stack)
-            }
-        }
-
-        _tile() {
             let window = global.display.get_focus_window();
             if (!window) {
                 return;
@@ -71,8 +61,6 @@ export default GObject.registerClass(
         }
 
         _windowcreated(_, window) {
-            logger("Window opened.");
-
             let windowActor = window.get_compositor_private();
 
             windowActor.remove_all_transitions();
@@ -89,38 +77,30 @@ export default GObject.registerClass(
         }
 
         _manageWindow(window) {
-            logger("Managing window.");
+            if (!Setting.isMaximizeMode() && !Setting.isUltraWideMode()) {
+                return;
+            }
 
-            try {
-                if (!Setting.isMaximizeMode() && !Setting.isUltraWideMode()) {
-                    return;
-                }
+            let workspace = window.get_workspace();
+            if (workspace.list_windows().length !== 1) {
+                return;
+            }
 
-                let workspace = window.get_workspace();
-                if (workspace.list_windows().length !== 1) {
-                    return;
-                }
+            if (Setting.isMaximizeMode() && !Setting.isUltraWideMode()) {
+                windowHelper.maximizeWindow(window);
+                return;
+            }
 
-                if (Setting.isMaximizeMode() && !Setting.isUltraWideMode()) {
-                    windowHelper.maximizeWindow(window);
-                    return;
-                }
+            let screenSize = screenHelper.getScreenSize(workspace);
+            if (!Setting.isMaximizeMode() && Setting.isUltraWideMode()) {
+                windowHelper.centerWindow(window, screenSize);
+                return;
+            }
 
-                let screenSize = screenHelper.getScreenSize(workspace);
-                if (!Setting.isMaximizeMode() && Setting.isUltraWideMode()) {
-                    windowHelper.centerWindow(window, screenSize);
-                    return;
-                }
-
-                if (Setting.isMaximizeMode() && Setting.isUltraWideMode()) {
-                    let ultraWideSize = screenHelper.splitUltraWide(screenSize);
-                    windowHelper.resizeWindow(window, ultraWideSize);
-                    return;
-                }
-
-            } catch (error) {
-                logger(error.toString());
-                logger(error.stack);
+            if (Setting.isMaximizeMode() && Setting.isUltraWideMode()) {
+                let ultraWideSize = screenHelper.splitUltraWide(screenSize);
+                windowHelper.resizeWindow(window, ultraWideSize);
+                return;
             }
         }
 

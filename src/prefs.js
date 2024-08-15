@@ -1,11 +1,7 @@
 import Gtk from 'gi://Gtk';
 import Adw from 'gi://Adw';
-import Gio from 'gi://Gio';
-import GLib from 'gi://GLib';
 import Gdk from 'gi://Gdk';
-import GObject from 'gi://GObject';
 
-import logger from './helpers/logger.js'
 import Settings from './helpers/settings.js';
 
 import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';

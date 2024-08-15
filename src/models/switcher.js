@@ -1,7 +1,6 @@
 import GObject from 'gi://GObject';
 import * as windowHelper from '../helpers/window.js'
 import * as screenHelper from '../helpers/screen.js'
-import logger from '../helpers/logger.js';
 
 export default GObject.registerClass(
     class Switcher extends GObject.Object {
