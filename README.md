@@ -14,10 +14,10 @@ Gnome extension that allows user switch windows like a tiling window manager, an
 | Keys    | Action |
 | -------- | ------- |
 | META+CTRL+W  | Tile all opened windows in current workspace into grid. |
-| META+CTRL+H  | Switch focus to the window left. |
-| META+CTRL+L  | Switch focus to the window right. |
-| META+CTRL+J  | Switch focus to the window down. |
-| META+CTRL+K  | Switch focus to the window up. |
+| META+SHIFT+H  | Switch focus to the window left. |
+| META+SHIFT+L  | Switch focus to the window right. |
+| META+SHIFT+J  | Switch focus to the window down. |
+| META+SHIFT+K  | Switch focus to the window up. |
 
 ## Video Preview <a name="video"></a>
 
@@ -34,5 +34,5 @@ Gnome extension that allows user switch windows like a tiling window manager, an
 
 ## TODO <a name="todo"></a>
 
-- [ ] Implement window tile gaps.
+- [ ] Improve grid tiling.
 - [ ] Remap keybind from settings.
