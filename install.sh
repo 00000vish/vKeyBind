@@ -2,11 +2,17 @@
 
 sudo echo "Installing Gtile..."
 
-mkdir ~/.local/share/gnome-shell/extensions/gtile@00000vish/
+INSTALL_DIR=~/.local/share/gnome-shell/extensions/gtile@00000vish
 
-cp -r ./src/* ~/.local/share/gnome-shell/extensions/gtile@00000vish/
+if [ -d "$INSTALL_DIR" ]; then
+    rm -r $INSTALL_DIR
+fi
 
-glib-compile-schemas ~/.local/share/gnome-shell/extensions/gtile@00000vish/schemas/
+mkdir $INSTALL_DIR
+
+cp -r ./src/* $INSTALL_DIR/
+
+glib-compile-schemas $INSTALL_DIR/schemas/
 
 sudo systemctl restart gdm  
 

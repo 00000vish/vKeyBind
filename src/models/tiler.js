@@ -49,8 +49,8 @@ export default GObject.registerClass(
                 initialHeight,
             );
 
-            let windowX = (screenSize.width / 2) - (maxWidth / 2);
-            let windowY = (screenSize.height / 2) - (maxHeight / 2);
+            let windowX = screenSize.x + (screenSize.width / 2) - (maxWidth / 2);
+            let windowY = screenSize.y + (screenSize.height / 2) - (maxHeight / 2);
 
             if (screenSize.width < maxWidth) {
                 return;
@@ -101,7 +101,13 @@ export default GObject.registerClass(
         }
 
         _sortWindow(windowA, windowB) {
-            return windowA.size.x + windowB.size.x + windowA.size.y - windowB.size.y;
+            let aOffsetY = windowA.size.height;
+            let aOffsetX = windowA.size.width;
+
+            let bOffsetY = windowB.size.height;
+            let bOffsetX = windowB.size.width;
+
+            return (windowA.size.y + aOffsetY) - (windowB.size.y + bOffsetY) + (windowA.size.x + aOffsetX) - (windowB.size.x + bOffsetX);
         }
 
         _windowcreated(_, window) {
