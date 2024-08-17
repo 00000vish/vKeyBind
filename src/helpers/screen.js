@@ -1,7 +1,7 @@
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as windowHelper from './window.js';
 
-export function getWindowSizes(workspace, activeMonitorOnly, sortCallback = null) {
+export function getWindowSizes(workspace, activeMonitorOnly) {
     let windows = windowHelper.getWindowsInWorkspace(workspace, activeMonitorOnly);
 
     let windowSizes = [];
@@ -15,10 +15,7 @@ export function getWindowSizes(workspace, activeMonitorOnly, sortCallback = null
         );
     }
 
-    if (!sortCallback)
-        return windowSizes;
-
-    return windowSizes.sort(sortCallback);
+    return windowSizes;
 }
 
 export function getScreenSize(workspace) {

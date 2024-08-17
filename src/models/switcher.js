@@ -25,26 +25,36 @@ export default GObject.registerClass(
             this._switch(1, true);
         }
 
-        _sortWindow(windowA, windowB, vertical) {
-            let aOffsetY = windowA.size.height;
-            let aOffsetX = windowA.size.width;
+        _sortWindow(windowA, windowB) {
+            let windowAreaA = windowA.size.height * windowA.size.width;
+            let windowAreaB = windowB.size.height * windowB.size.width;
 
-            let bOffsetY = windowB.size.height;
-            let bOffsetX = windowB.size.width;
+            return windowAreaA - windowAreaB;
+        }
 
-            if (vertical) {
-                return (windowA.size.y + aOffsetY) - (windowB.size.y + bOffsetY);
-            } else {
-                return (windowA.size.x + aOffsetX) - (windowB.size.x + bOffsetX);
-            }
+        _filterWindow(currentWindow, otherWindowSize, vertical) {
+            let otherMin = vertical ? otherWindowSize.size.x : otherWindowSize.size.y;
+            let otherMax = vertical ? otherWindowSize.size.x + otherWindowSize.size.width : otherWindowSize.size.y + otherWindowSize.size.height;
+
+            let currentWindowSize = windowHelper.getWindowSize(currentWindow);
+
+            let min = vertical ? currentWindowSize.x : currentWindowSize.y;
+            let max = vertical ? currentWindowSize.x + currentWindowSize.width : currentWindowSize.y + currentWindowSize.height;
+
+            return min < otherMax && max > otherMin;
         }
 
         _getCurrentWindowSizes(vertical) {
             let window = windowHelper.getFocusedWindow();
             let workspace = windowHelper.getWorkspace(window);
 
-            let sortCallback = (windowA, windowB) => this._sortWindow(windowA, windowB, vertical)
-            let windowSizes = screenHelper.getWindowSizes(workspace, false, sortCallback);
+            let windowSizes = screenHelper.getWindowSizes(workspace, false);
+
+            let sortCallback = (windowA, windowB) => this._sortWindow(windowA, windowB)
+            let filterCallback = (otherWindow) => this._filterWindow(window, otherWindow, vertical)
+
+            windowSizes = windowSizes.filter(filterCallback);
+            windowSizes = windowSizes.sort(sortCallback);
 
             let currentIndex = windowSizes.findIndex(x => x.window === window);
 
@@ -52,7 +62,7 @@ export default GObject.registerClass(
         }
 
         _switch(shiftIndex, vertical) {
-            let [index, windowSizes] = this._getCurrentWindowSizes(vertical, shiftIndex > 0);
+            let [index, windowSizes] = this._getCurrentWindowSizes(vertical);
 
             index = (windowSizes.length + index + shiftIndex) % windowSizes.length;
 

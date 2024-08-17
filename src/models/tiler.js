@@ -34,17 +34,19 @@ export default GObject.registerClass(
 
         _defaultTile(workspace) {
             let screenSize = screenHelper.getScreenSize(workspace);
-            let windowInfos = screenHelper.getWindowSizes(workspace, true, this._sortWindow)
+            let windowSizes = screenHelper.getWindowSizes(workspace, true)
+
+            windowSizes = windowSizes.sort(this._sortWindow)
 
             let initialWidth = 0;
             let initialHeight = 0;
 
-            let maxWidth = windowInfos.reduce(
+            let maxWidth = windowSizes.reduce(
                 (sum, currentWindow) => sum + currentWindow.size.width,
                 initialWidth,
             );
 
-            let maxHeight = windowInfos.reduce(
+            let maxHeight = windowSizes.reduce(
                 (max, currentWindow) => { return max > currentWindow.size.height ? max : currentWindow.size.height },
                 initialHeight,
             );
@@ -56,7 +58,7 @@ export default GObject.registerClass(
                 return;
             }
 
-            for (let item of windowInfos) {
+            for (let item of windowSizes) {
 
                 item.size.x = windowX;
                 item.size.y = windowY;
@@ -68,20 +70,22 @@ export default GObject.registerClass(
         }
 
         _gridTile(workspace) {
-            let windows = screenHelper.getWindowSizes(workspace, true, this._sortWindow)
+            let windowSizes = screenHelper.getWindowSizes(workspace, true)
+
+            windowSizes = windowSizes.sort(this._sortWindow)
 
             let maxCols = Setting.getMaxColumns();
             let maxRows = Settings.getMaxRows();
             let maxWindows = maxCols * maxRows;
 
-            if (windows.length > maxWindows) {
+            if (windowSizes.length > maxWindows) {
                 return;
             }
 
             let screenSize = screenHelper.getScreenSize(workspace);
 
-            let splitSizes = screenHelper.splitScreenColumns(screenSize, windows.length);
-            if (windows.length > maxCols) {
+            let splitSizes = screenHelper.splitScreenColumns(screenSize, windowSizes.length);
+            if (windowSizes.length > maxCols) {
                 splitSizes = [];
                 let rowSizes = screenHelper.splitScreenRows(screenSize, maxRows);
                 for (let rowSize of rowSizes) {
@@ -93,10 +97,10 @@ export default GObject.registerClass(
             let windowIndex = 0;
 
             for (let screenSplit of splitSizes) {
-                if (windowIndex >= windows.length) {
+                if (windowIndex >= windowSizes.length) {
                     break;
                 }
-                windowHelper.resizeWindow(windows[windowIndex++].window, screenSplit)
+                windowHelper.resizeWindow(windowSizes[windowIndex++].window, screenSplit)
             }
         }
 
