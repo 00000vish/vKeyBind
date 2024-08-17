@@ -58,9 +58,11 @@ export default GObject.registerClass(
                         ? otherWindow.size.y + otherWindow.size.height
                         : windowSize.y + windowSize.height);
 
+                let closeness = vertical ? windowSize.y + otherWindow.size.y : windowSize.x + otherWindow.size.x;
+
                 calculatedwindows.push({
                     window: otherWindow,
-                    range: max - min
+                    range: closeness + (max - min)
                 });
             }
 
