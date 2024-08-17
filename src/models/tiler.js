@@ -105,13 +105,7 @@ export default GObject.registerClass(
         }
 
         _sortWindow(windowA, windowB) {
-            let aOffsetY = windowA.size.height;
-            let aOffsetX = windowA.size.width;
-
-            let bOffsetY = windowB.size.height;
-            let bOffsetX = windowB.size.width;
-
-            return (windowA.size.y + aOffsetY) - (windowB.size.y + bOffsetY) + (windowA.size.x + aOffsetX) - (windowB.size.x + bOffsetX);
+            return (windowA.size.y - windowB.size.y) + (windowA.size.x - windowB.size.x);
         }
 
         _windowcreated(_, window) {

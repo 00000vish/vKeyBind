@@ -73,14 +73,18 @@ export default GObject.registerClass(
             let window = windowHelper.getFocusedWindow();
             let workspace = windowHelper.getWorkspace(window);
 
-            let windowSizes = screenHelper.getWindowSizes(workspace, false);
+            let allWindowSizes = screenHelper.getWindowSizes(workspace, false);
 
-            windowSizes = this._filterWindows(window, windowSizes, vertical);
-            windowSizes = this._sortWindows(window, windowSizes, vertical);
+            let filteredWindowSizes = this._filterWindows(window, allWindowSizes, vertical);
+            if (filteredWindowSizes.length <= 1) {
+                filteredWindowSizes = allWindowSizes;
+            }
 
-            let currentIndex = windowSizes.findIndex(x => x.window === window);
+            let sortedWindowSizes = this._sortWindows(window, filteredWindowSizes, vertical);
 
-            return [currentIndex, windowSizes];
+            let currentIndex = sortedWindowSizes.findIndex(x => x.window === window);
+
+            return [currentIndex, sortedWindowSizes];
         }
 
         _switch(shiftIndex, vertical) {
