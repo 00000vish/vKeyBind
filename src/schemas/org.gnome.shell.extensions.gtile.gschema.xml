@@ -27,7 +27,7 @@
             <description>Maximum rows of tiled windows.</description>
         </key>
         <key name="window-resize-amount" type="u">
-            <default>10</default>
+            <default>1</default>
             <summary>Window resize amount.</summary>
             <description>Window resize amount.</description>
         </key>
