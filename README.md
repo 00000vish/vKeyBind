@@ -33,7 +33,7 @@ Gnome extension that allows user switch and resize windows like a tiling window 
 
 1. ```git clone https://github.com/00000vish/gtile```
 2. ```cd ./gtile ``` go inside the project directory.
-3. (optional) ```vim ./src/schemas/org.gnome.shell.extensions.gtile.gschema``` to change keybinds.
+3. (optional) ```vim ./src/schemas/org.gnome.shell.extensions.gtile.gschema.xml``` to change keybinds.
 4. ```./install.sh``` to install the gnome extension. 
 
 
