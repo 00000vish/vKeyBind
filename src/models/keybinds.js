@@ -16,6 +16,11 @@ export default GObject.registerClass(
         _switchCallbackUp;
         _switchCallbackDown;
 
+        _focusCallbackRight;
+        _focusCallbackLeft;
+        _focusCallbackUp;
+        _focusCallbackDown;
+
         _growCallbackX;
         _growCallbackY;
         _shrinkCallbackX;
@@ -35,6 +40,10 @@ export default GObject.registerClass(
             this._setupKeyBinds(Settings.KEY_GROW_Y, () => this._growCallbackY?.());
             this._setupKeyBinds(Settings.KEY_SHRINK_X, () => this._shrinkCallbackX?.());
             this._setupKeyBinds(Settings.KEY_SHRINK_Y, () => this._shrinkCallbackY?.());
+            this._setupKeyBinds(Settings.KEY_FOCUS_RIGHT, () => this._focusCallbackRight?.());
+            this._setupKeyBinds(Settings.KEY_FOCUS_LEFT, () => this._focusCallbackLeft?.());
+            this._setupKeyBinds(Settings.KEY_FOCUS_UP, () => this._focusCallbackUp?.());
+            this._setupKeyBinds(Settings.KEY_FOCUS_DOWN, () => this._focusCallbackDown?.());
         }
 
         _setupKeyBinds(settingKey, callback) {
@@ -47,71 +56,33 @@ export default GObject.registerClass(
             );
         }
 
-        /**
-         * @param {Function} value
-         */
-        set tileCallback(value) {
-            this._tileCallback = value;
+
+        registerKeybind(settingKey, callback) {
+            switch (settingKey) {
+                case Settings.KEY_TILE: this._tileCallback = callback; break;
+                case Settings.KEY_SWITCH_RIGHT: this._switchCallbackRight = callback; break;
+                case Settings.KEY_SWITCH_LEFT: this._switchCallbackLeft = callback; break;
+                case Settings.KEY_SWITCH_UP: this._switchCallbackUp = callback; break;
+                case Settings.KEY_SWITCH_DOWN: this._switchCallbackDown = callback; break;
+                case Settings.KEY_GROW_X: this._growCallbackX = callback; break;
+                case Settings.KEY_GROW_Y: this._growCallbackY = callback; break;
+                case Settings.KEY_SHRINK_X: this._shrinkCallbackX = callback; break;
+                case Settings.KEY_SHRINK_Y: this._shrinkCallbackY = callback; break;
+                case Settings.KEY_FOCUS_RIGHT: this._focusCallbackRight = callback; break;
+                case Settings.KEY_FOCUS_LEFT: this._focusCallbackLeft = callback; break;
+                case Settings.KEY_FOCUS_UP: this._focusCallbackUp = callback; break;
+                case Settings.KEY_FOCUS_DOWN: this._focusCallbackDown = callback; break;
+                default: return;
+            }
         }
 
-        /**
-         * @param {Function} value
-         */
-        set switchCallbackRight(value) {
-            this._switchCallbackRight = value;
-        }
-
-        /**
-         * @param {Function} value
-         */
-        set switchCallbackLeft(value) {
-            this._switchCallbackLeft = value;
-        }
-
-        /**
-        * @param {Function} value
-        */
-        set switchCallbackUp(value) {
-            this._switchCallbackUp = value;
-        }
-
-        /**
-         * @param {Function} value
-         */
-        set switchCallbackDown(value) {
-            this._switchCallbackDown = value;
-        }
-
-        /**
-        * @param {Function} value
-        */
-        set growCallbackX(value) {
-            this._growCallbackX = value;
-        }
-        
-        /**
-        * @param {Function} value
-        */
-        set growCallbackY(value) {
-            this._growCallbackY = value;
-        }
-
-        /**
-        * @param {Function} value
-        */
-        set shrinkCallbackX(value) {
-            this._shrinkCallbackX = value;
-        }
-
-        /**
-        * @param {Function} value
-        */
-        set shrinkCallbackY(value) {
-            this._shrinkCallbackY = value;
-        }
 
         destroy() {
             Main.wm.removeKeybinding(Settings.KEY_TILE);
+            Main.wm.removeKeybinding(Settings.KEY_FOCUS_RIGHT);
+            Main.wm.removeKeybinding(Settings.KEY_FOCUS_LEFT);
+            Main.wm.removeKeybinding(Settings.KEY_FOCUS_UP);
+            Main.wm.removeKeybinding(Settings.KEY_FOCUS_DOWN);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_RIGHT);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_LEFT);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_UP);

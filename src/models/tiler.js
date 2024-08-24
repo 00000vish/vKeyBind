@@ -34,7 +34,7 @@ export default GObject.registerClass(
 
         _defaultTile(workspace) {
             let screenSize = screenHelper.getScreenSize(workspace);
-            let windowSizes = screenHelper.getWindowSizes(workspace, true)
+            let windowSizes = windowHelper.getWindowSizes(workspace, true)
 
             windowSizes = windowSizes.sort(this._sortWindow)
 
@@ -70,7 +70,7 @@ export default GObject.registerClass(
         }
 
         _gridTile(workspace) {
-            let windowSizes = screenHelper.getWindowSizes(workspace, true)
+            let windowSizes = windowHelper.getWindowSizes(workspace, true)
 
             windowSizes = windowSizes.sort(this._sortWindow)
 

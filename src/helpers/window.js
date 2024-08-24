@@ -82,3 +82,83 @@ export function focusWindow(window) {
     window.focus(global.get_current_time());
     window.unmake_above();
 }
+
+export function getWindowSizes(workspace, activeMonitorOnly) {
+    let windows = getWindowsInWorkspace(workspace, activeMonitorOnly);
+
+    let windowSizes = [];
+    for (let window of windows) {
+        let size = window.get_frame_rect();
+        windowSizes.push(
+            {
+                window: window,
+                size: size
+            }
+        );
+    }
+
+    return windowSizes;
+}
+
+export function getNearbyWindows(window, vertical) {
+    let workspace = getWorkspace(window);
+
+    let allWindowSizes = getWindowSizes(workspace, false);
+
+    let filteredWindowSizes = filterWindows(window, allWindowSizes, vertical);
+    if (filteredWindowSizes.length <= 1) {
+        filteredWindowSizes = allWindowSizes;
+    }
+
+    let sortedWindowSizes = sortWindows(window, filteredWindowSizes, vertical);
+
+    let currentIndex = sortedWindowSizes.findIndex(x => x.window === window);
+
+    return [currentIndex, sortedWindowSizes];
+}
+
+function filterWindows(window, windows, vertical) {
+    let filterCallback = (otherWindowSize) => {
+        let otherMin = vertical ? otherWindowSize.size.x : otherWindowSize.size.y;
+        let otherMax = vertical ? otherWindowSize.size.x + otherWindowSize.size.width : otherWindowSize.size.y + otherWindowSize.size.height;
+
+        let currentWindowSize = getWindowSize(window);
+
+        let min = vertical ? currentWindowSize.x : currentWindowSize.y;
+        let max = vertical ? currentWindowSize.x + currentWindowSize.width : currentWindowSize.y + currentWindowSize.height;
+
+        return min < otherMax && max > otherMin;
+    }
+
+    return windows.filter(filterCallback);
+}
+
+function sortWindows(window, windows, vertical) {
+    let windowSize = getWindowSize(window);
+
+    let calculatedwindows = [];
+    for (let otherWindow of windows) {
+        let min = vertical
+            ? (otherWindow.size.x > windowSize.x ? otherWindow.size.x : windowSize.x)
+            : (otherWindow.size.y > windowSize.y ? otherWindow.size.y : windowSize.y);
+
+        let max = vertical
+            ? (otherWindow.size.x + otherWindow.size.width < windowSize.x + windowSize.width
+                ? otherWindow.size.x + otherWindow.size.width
+                : windowSize.x + windowSize.width)
+            : (otherWindow.size.y + otherWindow.size.height < windowSize.y + windowSize.height
+                ? otherWindow.size.y + otherWindow.size.height
+                : windowSize.y + windowSize.height);
+
+        let closeness = vertical ? windowSize.y + otherWindow.size.y : windowSize.x + otherWindow.size.x;
+
+        calculatedwindows.push({
+            window: otherWindow,
+            range: closeness + (max - min)
+        });
+    }
+
+    calculatedwindows = calculatedwindows.sort((a, b) => a.range - b.range);
+
+    return calculatedwindows.map(x => x.window);
+}

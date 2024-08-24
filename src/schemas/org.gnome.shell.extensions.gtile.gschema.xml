@@ -32,41 +32,63 @@
             <description>Window resize amount.</description>
         </key>
 
-        <!-- keybindings -->
+        <!-- TILE KEYBIND -->
         <key name="tile-hotkey" type="as">
 			<default><![CDATA[['<Ctrl><Super>W']]]></default>
 			 <summary>Tile windows opened in current workspace.</summary>
 		</key>
-        <key name="switch-right-hotkey" type="as">
+
+        <!-- FOCUS KEYBIND -->
+        <key name="focus-right-hotkey" type="as">
 			<default><![CDATA[['<Shift><Super>L']]]></default>
-			 <summary>Switch for to right of focused window.</summary>
+			 <summary>Focus right of current window.</summary>
+		</key>
+        <key name="focus-left-hotkey" type="as">
+			<default><![CDATA[['<Shift><Super>H']]]></default>
+			 <summary>Focus left of current window.</summary>
+		</key>
+        <key name="focus-up-hotkey" type="as">
+			<default><![CDATA[['<Shift><Super>K']]]></default>
+			 <summary>Focus up of current window.</summary>
+		</key>
+        <key name="focus-down-hotkey" type="as">
+			<default><![CDATA[['<Shift><Super>J']]]></default>
+			 <summary>Focus down of current window.</summary>
+		</key>
+
+        <!-- SWITCH KEYBIND -->
+        <key name="switch-right-hotkey" type="as">
+			<default><![CDATA[['<Shift><Ctrl><Super>L']]]></default>
+			 <summary>Switch current window with right window.</summary>
 		</key>
         <key name="switch-left-hotkey" type="as">
-			<default><![CDATA[['<Shift><Super>H']]]></default>
-			 <summary>Switch for to left of focused window.</summary>
+			<default><![CDATA[['<Shift><Ctrl><Super>H']]]></default>
+			 <summary>Switch current window with left window.</summary>
 		</key>
         <key name="switch-up-hotkey" type="as">
-			<default><![CDATA[['<Shift><Super>K']]]></default>
-			 <summary>Switch for to up of focused window.</summary>
+			<default><![CDATA[['<Shift><Ctrl><Super>K']]]></default>
+			 <summary>Switch current window with up window.</summary>
 		</key>
         <key name="switch-down-hotkey" type="as">
-			<default><![CDATA[['<Shift><Super>J']]]></default>
-			 <summary>Switch for to down of focused window.</summary>
+			<default><![CDATA[['<Shift><Ctrl><Super>J']]]></default>
+			 <summary>Switch current window with down window.</summary>
 		</key>
+
+        <!-- SHRINK KEYBIND -->
         <key name="shrink-x-hotkey" type="as">
-			<default><![CDATA[['<CTRL><Super>H']]]></default>
+			<default><![CDATA[['<Ctrl><Super>H']]]></default>
 			 <summary>Shrink focused window in X axis.</summary>
 		</key>
         <key name="grow-x-hotkey" type="as">
-			<default><![CDATA[['<CTRL><Super>L']]]></default>
+			<default><![CDATA[['<Ctrl><Super>L']]]></default>
 			 <summary>Grow focused window in X axis</summary>
 		</key>
         <key name="shrink-y-hotkey" type="as">
-			<default><![CDATA[['<CTRL><Super>K']]]></default>
+			<default><![CDATA[['<Ctrl><Super>K']]]></default>
 			 <summary>Shrink focused window in Y axis.</summary>
 		</key>
         <key name="grow-y-hotkey" type="as">
-			<default><![CDATA[['<CTRL><Super>J']]]></default>
+			<default><![CDATA[['<Ctrl><Super>J']]]></default>
 			 <summary>Grow focused window in Y axis</summary>
 		</key>
     </schema>

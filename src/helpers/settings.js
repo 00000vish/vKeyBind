@@ -18,6 +18,11 @@ export default class Settings {
     static KEY_SHRINK_Y = "shrink-y-hotkey";
     static KEY_GROW_X = "grow-x-hotkey";
     static KEY_GROW_Y = "grow-y-hotkey";
+    static KEY_FOCUS_RIGHT = "focus-right-hotkey";
+    static KEY_FOCUS_LEFT = "focus-left-hotkey";
+    static KEY_FOCUS_UP = "focus-up-hotkey";
+    static KEY_FOCUS_DOWN = "focus-down-hotkey";
+
 
     static initialize(settings) {
         this._settings = settings;

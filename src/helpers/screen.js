@@ -1,22 +1,4 @@
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import * as windowHelper from './window.js';
-
-export function getWindowSizes(workspace, activeMonitorOnly) {
-    let windows = windowHelper.getWindowsInWorkspace(workspace, activeMonitorOnly);
-
-    let windowSizes = [];
-    for (let window of windows) {
-        let size = window.get_frame_rect();
-        windowSizes.push(
-            {
-                window: window,
-                size: size
-            }
-        );
-    }
-
-    return windowSizes;
-}
 
 export function getScreenSize(workspace) {
     let monitors = Main.layoutManager.monitors;
