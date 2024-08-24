@@ -14,10 +14,14 @@ Gnome extension that allows user switch and resize windows like a tiling window 
 | Keys    | Action |
 | -------- | ------- |
 | META+CTRL+W  | Tile all opened windows in current workspace. |
-| META+SHIFT+H  | Switch focus to the window left. |
-| META+SHIFT+L  | Switch focus to the window right. |
-| META+SHIFT+J  | Switch focus to the window down. |
-| META+SHIFT+K  | Switch focus to the window up. |
+| META+SHIFT+H  | Focus to the window left. |
+| META+SHIFT+L  | Focus to the window right. |
+| META+SHIFT+J  | Focus to the window down. |
+| META+SHIFT+K  | Focus to the window up. |
+| META+CTRL+SHIFT+H  | Switch current window with left window. |
+| META+CTRL+SHIFT+L  | Switch current window with right window. |
+| META+CTRL+SHIFT+J  | Switch current window with down window. |
+| META+CTRL+SHIFT+K  | Switch current window with up window. |
 | META+CTRL+H  | Shrink the focused window horizontally. |
 | META+CTRL+L  | Grow the focused window horizontally. |
 | META+CTRL+K  | Shrink the focused window vertically. |
