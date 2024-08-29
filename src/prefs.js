@@ -38,6 +38,13 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         );
         settingGroup.add(ultraWideSwitch);
 
+        const keepOriginalSizeSwitch = this._buildSwitchRow(
+            Settings.KEEP_ORIGINAL_SIZE,
+            'Keep Original Size',
+            'Keep original window size when switched.',
+        );
+        settingGroup.add(keepOriginalSizeSwitch);
+
         const resizeAmountRow = this._buildSpinButtonRow(
             Settings.WINDOW_RESIZE_AMOUNT,
             'Resize Amount',

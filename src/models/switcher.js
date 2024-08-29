@@ -1,5 +1,6 @@
 import GObject from 'gi://GObject';
 import * as windowHelper from '../helpers/window.js'
+import Settings from '../helpers/settings.js';
 
 export default GObject.registerClass(
     class Switcher extends GObject.Object {
@@ -37,6 +38,11 @@ export default GObject.registerClass(
 
             let currentWindowSize = windows[currentWindowIndex].size;
             let otherWindowSize = windows[otherWindowIndex].size;
+
+            if (Settings.isKeepOriginalSize()) {
+                [currentWindowSize.width, otherWindowSize.width] = [otherWindowSize.width, currentWindowSize.width];
+                [currentWindowSize.height, otherWindowSize.height] = [otherWindowSize.height, currentWindowSize.height];
+            }
 
             windowHelper.resizeWindow(windows[currentWindowIndex].window, otherWindowSize);
             windowHelper.resizeWindow(windows[otherWindowIndex].window, currentWindowSize);

@@ -4,6 +4,7 @@ export default class Settings {
     static MAXIMIZE_MODE = 'maximize-mode';
     static ULTRA_WIDE_MODE = 'ultra-wide-mode';
     static GRID_TILE_MODE = 'grid-tile-mode';
+    static KEEP_ORIGINAL_SIZE = "keep-original-size";
 
     static WINDOW_RESIZE_AMOUNT = 'window-resize-amount';
     static WINDOW_MAX_COLUMNS = 'window-max-column-tiles';
@@ -47,6 +48,13 @@ export default class Settings {
             return false;
 
         return this._settings.get_boolean(this.GRID_TILE_MODE);
+    }
+
+    static isKeepOriginalSize() {
+        if (!this._settings)
+            return true;
+
+        return this._settings.get_boolean(this.KEEP_ORIGINAL_SIZE);
     }
 
     static getResizeAmount(){
