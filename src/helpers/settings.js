@@ -15,6 +15,10 @@ export default class Settings {
     static KEY_SWITCH_LEFT = "switch-left-hotkey";
     static KEY_SWITCH_UP = "switch-up-hotkey";
     static KEY_SWITCH_DOWN = "switch-down-hotkey";
+    static KEY_MOVE_RIGHT = "move-right-hotkey";
+    static KEY_MOVE_LEFT = "move-left-hotkey";
+    static KEY_MOVE_UP = "move-up-hotkey";
+    static KEY_MOVE_DOWN = "move-down-hotkey";
     static KEY_SHRINK_X = "shrink-x-hotkey";
     static KEY_SHRINK_Y = "shrink-y-hotkey";
     static KEY_GROW_X = "grow-x-hotkey";

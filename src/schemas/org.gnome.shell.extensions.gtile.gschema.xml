@@ -79,21 +79,39 @@
 			 <summary>Switch current window with down window.</summary>
 		</key>
 
-        <!-- SHRINK KEYBIND -->
-        <key name="shrink-x-hotkey" type="as">
+        <!-- MOVE KEYBIND -->
+        <key name="move-right-hotkey" type="as">
 			<default><![CDATA[['<Ctrl><Super>H']]]></default>
+			 <summary>Move right the focused window.</summary>
+		</key>
+        <key name="move-left-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Super>L']]]></default>
+			 <summary>Move left the focused window.</summary>
+		</key>
+        <key name="move-up-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Super>K']]]></default>
+			 <summary>Move up the focused window.</summary>
+		</key>
+        <key name="move-down-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Super>J']]]></default>
+			 <summary>Move down the focused window.</summary>
+		</key>
+
+          <!-- RESIZE KEYBIND -->
+        <key name="shrink-x-hotkey" type="as">
+			<default><![CDATA[['<Alt><Super>H']]]></default>
 			 <summary>Shrink focused window in X axis.</summary>
 		</key>
         <key name="grow-x-hotkey" type="as">
-			<default><![CDATA[['<Ctrl><Super>L']]]></default>
+			<default><![CDATA[['<Alt><Super>L']]]></default>
 			 <summary>Grow focused window in X axis</summary>
 		</key>
         <key name="shrink-y-hotkey" type="as">
-			<default><![CDATA[['<Ctrl><Super>K']]]></default>
+			<default><![CDATA[['<Alt><Super>K']]]></default>
 			 <summary>Shrink focused window in Y axis.</summary>
 		</key>
         <key name="grow-y-hotkey" type="as">
-			<default><![CDATA[['<Ctrl><Super>J']]]></default>
+			<default><![CDATA[['<Alt><Super>J']]]></default>
 			 <summary>Grow focused window in Y axis</summary>
 		</key>
     </schema>

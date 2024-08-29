@@ -3,6 +3,7 @@ import Tiler from './models/tiler.js'
 import Switcher from './models/switcher.js'
 import KeyBinds from './models/keybinds.js';
 import Resizer from './models/resizer.js';
+import Mover from './models/mover.js';
 import Focuser from './models/focuser.js'
 import Settings from './helpers/settings.js';
 
@@ -12,6 +13,7 @@ export default GObject.registerClass(
         _resizer;
         _focuser;
         _switcher;
+        _mover;
 
         _keybinds;
 
@@ -22,6 +24,7 @@ export default GObject.registerClass(
             this._resizer = new Resizer();
             this._switcher = new Switcher();
             this._focuser = new Focuser();
+            this._mover = new Mover();
             this._keybinds = new KeyBinds();
 
             this._keybinds.registerKeybind(Settings.KEY_TILE, (this._tiler.tile).bind(this._tiler));
@@ -40,6 +43,11 @@ export default GObject.registerClass(
             this._keybinds.registerKeybind(Settings.KEY_GROW_Y, (this._resizer.growY).bind(this._resizer));
             this._keybinds.registerKeybind(Settings.KEY_SHRINK_X, (this._resizer.shrinkX).bind(this._resizer));
             this._keybinds.registerKeybind(Settings.KEY_SHRINK_Y, (this._resizer.shrinkY).bind(this._resizer));
+
+            this._keybinds.registerKeybind(Settings.KEY_MOVE_RIGHT, (this._mover.moveRight).bind(this._mover));
+            this._keybinds.registerKeybind(Settings.KEY_MOVE_LEFT, (this._mover.moveLeft).bind(this._mover));
+            this._keybinds.registerKeybind(Settings.KEY_MOVE_UP, (this._mover.moveUp).bind(this._mover));
+            this._keybinds.registerKeybind(Settings.KEY_MOVE_DOWN, (this._mover.moveDown).bind(this._mover));
         }
 
         destroy() {
@@ -49,6 +57,7 @@ export default GObject.registerClass(
             this._resizer.destroy();
             this._switcher.destroy();
             this._focuser.destroy();
+            this._mover.destroy();
         }
     }
 );

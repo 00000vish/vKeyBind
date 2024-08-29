@@ -41,6 +41,10 @@ export default GObject.registerClass(
                 case Settings.KEY_FOCUS_LEFT: this._setupKeyBinds(Settings.KEY_FOCUS_LEFT, callback); break;
                 case Settings.KEY_FOCUS_UP: this._setupKeyBinds(Settings.KEY_FOCUS_UP, callback); break;
                 case Settings.KEY_FOCUS_DOWN: this._setupKeyBinds(Settings.KEY_FOCUS_DOWN, callback); break;
+                case Settings.KEY_MOVE_RIGHT: this._setupKeyBinds(Settings.KEY_MOVE_RIGHT, callback); break;
+                case Settings.KEY_MOVE_LEFT: this._setupKeyBinds(Settings.KEY_MOVE_LEFT, callback); break;
+                case Settings.KEY_MOVE_UP: this._setupKeyBinds(Settings.KEY_MOVE_UP, callback); break;
+                case Settings.KEY_MOVE_DOWN: this._setupKeyBinds(Settings.KEY_MOVE_DOWN, callback); break;
                 default: return;
             }
         }
@@ -56,6 +60,10 @@ export default GObject.registerClass(
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_LEFT);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_UP);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_DOWN);
+            Main.wm.removeKeybinding(Settings.KEY_MOVE_RIGHT);
+            Main.wm.removeKeybinding(Settings.KEY_MOVE_LEFT);
+            Main.wm.removeKeybinding(Settings.KEY_MOVE_UP);
+            Main.wm.removeKeybinding(Settings.KEY_MOVE_DOWN);
             Main.wm.removeKeybinding(Settings.KEY_GROW_X);
             Main.wm.removeKeybinding(Settings.KEY_GROW_Y);
             Main.wm.removeKeybinding(Settings.KEY_SHRINK_X);
