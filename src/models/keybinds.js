@@ -45,6 +45,10 @@ export default GObject.registerClass(
                 case Settings.KEY_MOVE_LEFT: this._setupKeyBinds(Settings.KEY_MOVE_LEFT, callback); break;
                 case Settings.KEY_MOVE_UP: this._setupKeyBinds(Settings.KEY_MOVE_UP, callback); break;
                 case Settings.KEY_MOVE_DOWN: this._setupKeyBinds(Settings.KEY_MOVE_DOWN, callback); break;
+                case Settings.KEY_SNAP_RIGHT: this._setupKeyBinds(Settings.KEY_SNAP_RIGHT, callback); break;
+                case Settings.KEY_SNAP_LEFT: this._setupKeyBinds(Settings.KEY_SNAP_LEFT, callback); break;
+                case Settings.KEY_SNAP_UP: this._setupKeyBinds(Settings.KEY_SNAP_UP, callback); break;
+                case Settings.KEY_SNAP_DOWN: this._setupKeyBinds(Settings.KEY_SNAP_DOWN, callback); break;
                 default: return;
             }
         }

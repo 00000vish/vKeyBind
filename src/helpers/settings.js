@@ -15,6 +15,10 @@ export default class Settings {
     static KEY_SWITCH_LEFT = "switch-left-hotkey";
     static KEY_SWITCH_UP = "switch-up-hotkey";
     static KEY_SWITCH_DOWN = "switch-down-hotkey";
+    static KEY_SNAP_RIGHT = "snap-right-hotkey";
+    static KEY_SNAP_LEFT = "snap-left-hotkey";
+    static KEY_SNAP_UP = "snap-up-hotkey";
+    static KEY_SNAP_DOWN = "snap-down-hotkey";
     static KEY_MOVE_RIGHT = "move-right-hotkey";
     static KEY_MOVE_LEFT = "move-left-hotkey";
     static KEY_MOVE_UP = "move-up-hotkey";

@@ -63,19 +63,19 @@
 
         <!-- SWITCH KEYBIND -->
         <key name="switch-right-hotkey" type="as">
-			<default><![CDATA[['<Shift><Ctrl><Super>L']]]></default>
+			<default><![CDATA[['<Alt><Ctrl><Super>L']]]></default>
 			 <summary>Switch current window with right window.</summary>
 		</key>
         <key name="switch-left-hotkey" type="as">
-			<default><![CDATA[['<Shift><Ctrl><Super>H']]]></default>
+			<default><![CDATA[['<Alt><Ctrl><Super>H']]]></default>
 			 <summary>Switch current window with left window.</summary>
 		</key>
         <key name="switch-up-hotkey" type="as">
-			<default><![CDATA[['<Shift><Ctrl><Super>K']]]></default>
+			<default><![CDATA[['<Alt><Ctrl><Super>K']]]></default>
 			 <summary>Switch current window with up window.</summary>
 		</key>
         <key name="switch-down-hotkey" type="as">
-			<default><![CDATA[['<Shift><Ctrl><Super>J']]]></default>
+			<default><![CDATA[['<Alt><Ctrl><Super>J']]]></default>
 			 <summary>Switch current window with down window.</summary>
 		</key>
 
@@ -97,7 +97,7 @@
 			 <summary>Move down the focused window.</summary>
 		</key>
 
-          <!-- RESIZE KEYBIND -->
+        <!-- RESIZE KEYBIND -->
         <key name="shrink-x-hotkey" type="as">
 			<default><![CDATA[['<Alt><Super>H']]]></default>
 			 <summary>Shrink focused window in X axis.</summary>
@@ -113,6 +113,24 @@
         <key name="grow-y-hotkey" type="as">
 			<default><![CDATA[['<Alt><Super>J']]]></default>
 			 <summary>Grow focused window in Y axis</summary>
+		</key>
+
+        <!-- SNAPPER KEYBIND -->
+        <key name="snap-right-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Shift><Super>H']]]></default>
+			 <summary>Snap focused window right.</summary>
+		</key>
+        <key name="snap-left-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Shift><Super>L']]]></default>
+			 <summary>Snap focused window left.</summary>
+		</key>
+        <key name="snap-up-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Shift><Super>K']]]></default>
+			 <summary>Snap focused window up.</summary>
+		</key>
+        <key name="snap-down-hotkey" type="as">
+			<default><![CDATA[['<Ctrl><Shift><Super>J']]]></default>
+			 <summary>Snap focused window down.</summary>
 		</key>
     </schema>
 </schemalist>
