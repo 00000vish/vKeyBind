@@ -1,6 +1,6 @@
 # gtile
 
-Gnome extension that allows user switch and resize windows like a tiling window manager using keybinds, and also can maximize first opened window vertically and horizontally, or just vertically, or just center the first opened window. And also can tile windows in a grid.   
+Gnome extension that allows user to switch focus, move, switch windows, resize windows like a tiling window manager using keybinds, and also can maximize first opened window vertically and horizontally, or just vertically, or just center the first opened window. And also can tile windows in a grid.   
 
 ## Table of Contents
 1. [Keybinds](#keybinds)
@@ -18,10 +18,18 @@ Gnome extension that allows user switch and resize windows like a tiling window 
 | META+SHIFT+L  | Focus to the window right. |
 | META+SHIFT+J  | Focus to the window down. |
 | META+SHIFT+K  | Focus to the window up. |
-| META+CTRL+SHIFT+H  | Switch current window with left window. |
-| META+CTRL+SHIFT+L  | Switch current window with right window. |
-| META+CTRL+SHIFT+J  | Switch current window with down window. |
-| META+CTRL+SHIFT+K  | Switch current window with up window. |
+| META+CTRL+ALT+H  | Switch current window with left window. |
+| META+CTRL+ALT+L  | Switch current window with right window. |
+| META+CTRL+ALT+J  | Switch current window with down window. |
+| META+CTRL+ALT+K  | Switch current window with up window. |
+| META+CTRL+H  | Move current window to the left. |
+| META+CTRL+L  | Move current window to the right. |
+| META+CTRL+J  | Move current window to the down. |
+| META+CTRL+K  | Move current window to the up. |
+| META+CTRL+SHIFT+H  | Snap current window to the left. |
+| META+CTRL+SHIFT+L  | Snap current window to the right. |
+| META+CTRL+SHIFT+J  | Snap current window to the down. |
+| META+CTRL+SHIFT+K  | Snap current window to the up. |
 | META+CTRL+H  | Shrink the focused window horizontally. |
 | META+CTRL+L  | Grow the focused window horizontally. |
 | META+CTRL+K  | Shrink the focused window vertically. |
