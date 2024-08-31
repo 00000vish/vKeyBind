@@ -1,6 +1,6 @@
 # gtile
 
-Gnome extension that allows user to switch focus, move, switch windows, resize windows like a tiling window manager using keybinds, and also can maximize first opened window vertically and horizontally, or just vertically, or just center the first opened window. And also can tile windows in a grid.   
+Gnome extension that allows user to focus, move, switch, resize windows like a tiling window manager using keybinds, and also can maximize first opened window vertically and horizontally, or just vertically, or just center the first opened window. And also can tile windows in a grid.   
 
 ## Table of Contents
 1. [Keybinds](#keybinds)
