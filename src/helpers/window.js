@@ -106,7 +106,7 @@ export function getNearbyWindows(window, vertical, strict) {
     let allWindowSizes = getWindowSizes(workspace, false);
 
     let filteredWindowSizes = filterWindows(window, allWindowSizes, vertical);
-    
+
     if (filteredWindowSizes.length <= 1 && !strict) {
         filteredWindowSizes = allWindowSizes;
     }
@@ -119,16 +119,22 @@ export function getNearbyWindows(window, vertical, strict) {
 }
 
 function filterWindows(window, windows, vertical) {
-    let filterCallback = (otherWindowSize) => {
-        let otherMin = vertical ? otherWindowSize.size.x : otherWindowSize.size.y;
-        let otherMax = vertical ? otherWindowSize.size.x + otherWindowSize.size.width : otherWindowSize.size.y + otherWindowSize.size.height;
+    let currentWindowSize = getWindowSize(window);
 
-        let currentWindowSize = getWindowSize(window);
+    let filterCallback = (otherWindowSize) => {
+        let otherSizeX = otherWindowSize.size.x;
+        let otherSizeY = otherWindowSize.size.y;
+
+        let otherWidth = otherWindowSize.size.width;
+        let otherHeight = otherWindowSize.size.height;
+
+        let otherMin = vertical ? otherSizeX : otherSizeY;
+        let otherMax = vertical ? otherSizeX + otherWidth : otherSizeY + otherHeight;
 
         let min = vertical ? currentWindowSize.x : currentWindowSize.y;
         let max = vertical ? currentWindowSize.x + currentWindowSize.width : currentWindowSize.y + currentWindowSize.height;
 
-        return min < otherMax && max > otherMin;
+        return min < otherMax && max > otherMin && !(min < otherMin && max > otherMax);
     }
 
     return windows.filter(filterCallback);
