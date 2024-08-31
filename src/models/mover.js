@@ -11,11 +11,11 @@ export default GObject.registerClass(
         }
 
         moveRight() {
-            this._move(-1, false);
+            this._move(1, false);
         }
 
         moveLeft() {
-            this._move(1, false);
+            this._move(-1, false);
         }
 
         moveUp() {

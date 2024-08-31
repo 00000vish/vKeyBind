@@ -81,11 +81,11 @@
 
         <!-- MOVE KEYBIND -->
         <key name="move-right-hotkey" type="as">
-			<default><![CDATA[['<Ctrl><Super>H']]]></default>
+			<default><![CDATA[['<Ctrl><Super>L']]]></default>
 			 <summary>Move right the focused window.</summary>
 		</key>
         <key name="move-left-hotkey" type="as">
-			<default><![CDATA[['<Ctrl><Super>L']]]></default>
+			<default><![CDATA[['<Ctrl><Super>H']]]></default>
 			 <summary>Move left the focused window.</summary>
 		</key>
         <key name="move-up-hotkey" type="as">
@@ -117,11 +117,11 @@
 
         <!-- SNAPPER KEYBIND -->
         <key name="snap-right-hotkey" type="as">
-			<default><![CDATA[['<Ctrl><Shift><Super>H']]]></default>
+			<default><![CDATA[['<Ctrl><Shift><Super>L']]]></default>
 			 <summary>Snap focused window right.</summary>
 		</key>
         <key name="snap-left-hotkey" type="as">
-			<default><![CDATA[['<Ctrl><Shift><Super>L']]]></default>
+			<default><![CDATA[['<Ctrl><Shift><Super>H']]]></default>
 			 <summary>Snap focused window left.</summary>
 		</key>
         <key name="snap-up-hotkey" type="as">

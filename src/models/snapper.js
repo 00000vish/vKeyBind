@@ -1,5 +1,6 @@
 import GObject from 'gi://GObject';
 import * as windowHelper from '../helpers/window.js'
+import * as screenHelper from '../helpers/screen.js'
 
 export default GObject.registerClass(
     class Snapper extends GObject.Object {
@@ -25,23 +26,54 @@ export default GObject.registerClass(
         }
 
         _snap(direction, vertical) {
-            let window = windowHelper.getFocusedWindow();
+            try {
+                let window = windowHelper.getFocusedWindow();
 
-            let [currentWindowIndex, windows] = windowHelper.getNearbyWindows(window, vertical);
+                let [currentWindowIndex, windows] = windowHelper.getNearbyWindows(window, vertical, true);
 
-            let otherWindowIndex = (windows.length + currentWindowIndex + direction) % windows.length;
+                let otherWindowIndex = currentWindowIndex + direction;
 
-            if (currentWindowIndex === otherWindowIndex) {
-                return;
+                if (otherWindowIndex < 0 || otherWindowIndex >= windows.length) {
+                    this._snapToScreenEdge(direction, vertical, windows[currentWindowIndex])
+                    return;
+                }
+
+                let otherWindowSize = windows[otherWindowIndex].size;
+                let currentWindowSize = windows[currentWindowIndex].size;
+
+                if (vertical) {
+                    currentWindowSize.y = direction > 0
+                        ? otherWindowSize.y - currentWindowSize.height
+                        : otherWindowSize.y + otherWindowSize.height;
+                } else {
+                    currentWindowSize.x = direction > 0
+                        ? otherWindowSize.x - currentWindowSize.width
+                        : otherWindowSize.x + otherWindowSize.width;
+                }
+
+                windowHelper.resizeWindow(window, currentWindowSize);
+
+            } catch (error) {
+                logger(error.toString());
+                logger(error.stack);
+            }
+        }
+
+        _snapToScreenEdge(direction, vertical, window) {
+            let workspace = windowHelper.getWorkspace(window.window);
+            let screenSize = screenHelper.getScreenSize(workspace);
+
+            if (vertical) {
+                window.size.y = direction < 0
+                    ? screenSize.y
+                    : screenSize.y + screenSize.height - window.size.height;
+            } else {
+                window.size.x = direction < 0
+                    ? screenSize.x
+                    : screenSize.x + screenSize.width - window.size.width;
             }
 
-            let otherWindowSize = windows[otherWindowIndex].size;
-            let currentWindowSize = windows[currentWindowIndex].size;
-
-            currentWindowSize.x = otherWindowSize.x;
-            currentWindowSize.y = otherWindowSize.y;
-
-            windowHelper.resizeWindow(window, currentWindowSize);
+            windowHelper.resizeWindow(window.window, window.size);
         }
 
         destroy() { }

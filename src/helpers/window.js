@@ -100,13 +100,14 @@ export function getWindowSizes(workspace, activeMonitorOnly) {
     return windowSizes;
 }
 
-export function getNearbyWindows(window, vertical) {
+export function getNearbyWindows(window, vertical, strict) {
     let workspace = getWorkspace(window);
 
     let allWindowSizes = getWindowSizes(workspace, false);
 
     let filteredWindowSizes = filterWindows(window, allWindowSizes, vertical);
-    if (filteredWindowSizes.length <= 1) {
+    
+    if (filteredWindowSizes.length <= 1 && !strict) {
         filteredWindowSizes = allWindowSizes;
     }
 
