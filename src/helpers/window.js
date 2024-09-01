@@ -122,19 +122,31 @@ function filterWindows(window, windows, vertical) {
     let currentWindowSize = getWindowSize(window);
 
     let filterCallback = (otherWindowSize) => {
-        let otherSizeX = otherWindowSize.size.x;
-        let otherSizeY = otherWindowSize.size.y;
 
-        let otherWidth = otherWindowSize.size.width;
-        let otherHeight = otherWindowSize.size.height;
+        if (currentWindowSize.x < otherWindowSize.x &&
+            currentWindowSize.width > otherWindowSize.width &&
+            currentWindowSize.y < otherWindowSize.y &&
+            currentWindowSize.height > otherWindowSize.height) {
+            return false;
+        }
 
-        let otherMin = vertical ? otherSizeX : otherSizeY;
-        let otherMax = vertical ? otherSizeX + otherWidth : otherSizeY + otherHeight;
+        let otherMin = vertical
+            ? otherWindowSize.size.x
+            : otherWindowSize.size.y;
 
-        let min = vertical ? currentWindowSize.x : currentWindowSize.y;
-        let max = vertical ? currentWindowSize.x + currentWindowSize.width : currentWindowSize.y + currentWindowSize.height;
+        let otherMax = vertical
+            ? otherWindowSize.size.x + otherWindowSize.size.width
+            : otherWindowSize.size.y + otherWindowSize.size.height;
 
-        return min < otherMax && max > otherMin && !(min < otherMin && max > otherMax);
+        let min = vertical
+            ? currentWindowSize.x
+            : currentWindowSize.y;
+
+        let max = vertical
+            ? currentWindowSize.x + currentWindowSize.width
+            : currentWindowSize.y + currentWindowSize.height;
+
+        return min < otherMax && max > otherMin;
     }
 
     return windows.filter(filterCallback);
