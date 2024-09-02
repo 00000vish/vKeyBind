@@ -40,12 +40,17 @@ export default GObject.registerClass(
             let otherWindowSize = windows[otherWindowIndex].size;
 
             if (Settings.isKeepOriginalSize()) {
-                [currentWindowSize.width, otherWindowSize.width] = [otherWindowSize.width, currentWindowSize.width];
-                [currentWindowSize.height, otherWindowSize.height] = [otherWindowSize.height, currentWindowSize.height];
+                if (vertical) {
+                    [currentWindowSize.y, otherWindowSize.y] = [otherWindowSize.y, currentWindowSize.y]
+                } else {
+                    [currentWindowSize.x, otherWindowSize.x] = [otherWindowSize.x, currentWindowSize.x]
+                }
+            } else {
+                [currentWindowSize, otherWindowSize] = [otherWindowSize, currentWindowSize]
             }
 
-            windowHelper.resizeWindow(windows[currentWindowIndex].window, otherWindowSize);
-            windowHelper.resizeWindow(windows[otherWindowIndex].window, currentWindowSize);
+            windowHelper.resizeWindow(windows[currentWindowIndex].window, currentWindowSize);
+            windowHelper.resizeWindow(windows[otherWindowIndex].window, otherWindowSize);
         }
 
 

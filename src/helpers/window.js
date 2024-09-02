@@ -173,7 +173,7 @@ function sortWindows(window, windows, vertical) {
 
         calculatedwindows.push({
             window: otherWindow,
-            range: closeness + (max - min)
+            range: closeness - (max - min)
         });
     }
 
