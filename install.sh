@@ -1,8 +1,8 @@
 #! /bin/bash
 
-sudo echo "Installing Gtile..."
+sudo echo "Installing vKeyBind..."
 
-INSTALL_DIR=~/.local/share/gnome-shell/extensions/gtile@00000vish
+INSTALL_DIR=~/.local/share/gnome-shell/extensions/vkeybind@00000vish
 
 if [ -d "$INSTALL_DIR" ]; then
     rm -r $INSTALL_DIR

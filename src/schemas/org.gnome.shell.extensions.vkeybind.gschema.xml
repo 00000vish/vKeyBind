@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="gnome-shell-extensions">
-    <schema path="/org/gnome/shell/extensions/gtile/" id="org.gnome.shell.extensions.gtile">
+    <schema path="/org/gnome/shell/extensions/vkeybind/" id="org.gnome.shell.extensions.vkeybind">
         <key name="maximize-mode" type="b">
             <default>true</default>
             <summary>Maximize the first opened window.</summary>
