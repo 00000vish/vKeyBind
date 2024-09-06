@@ -1,4 +1,4 @@
-# gtile
+# vKeyBind
 
 Gnome extension that allows user to focus, move, switch, resize windows like a tiling window manager using keybinds, and also can maximize first opened window vertically and horizontally, or just vertically, or just center the first opened window. And also can tile windows in a grid.   
 
@@ -39,18 +39,18 @@ Gnome extension that allows user to focus, move, switch, resize windows like a t
 
 [gtile.webm](https://github.com/user-attachments/assets/f9d38dc8-0a7d-4abb-b817-d11d9ea96064)
 
-> In this video all window resizing and positioning is done with gtile exteions keybinds.
+> In this video all window resizing and positioning is done with vKeyBind extension keybinds.
 
 ## Install <a name="install"></a>
 
-1. ```git clone https://github.com/00000vish/gtile```
-2. ```cd ./gtile ``` go inside the project directory.
-3. (optional) ```vim ./src/schemas/org.gnome.shell.extensions.gtile.gschema.xml``` to change keybinds.
+1. ```git clone https://github.com/00000vish/vKeyBind```
+2. ```cd ./vKeyBind ``` go inside the project directory.
+3. (optional) ```vim ./src/schemas/org.gnome.shell.extensions.vkeybind.gschema.xml``` to change keybinds.
 4. ```./install.sh``` to install the gnome extension. 
 
 
 
 ## TODO <a name="todo"></a>
 
-- [ ] Improve grid tiling.
+- [ ] Improve tiling.
 - [ ] Remap keybind from settings.
