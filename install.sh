@@ -8,7 +8,7 @@ if [ -d "$INSTALL_DIR" ]; then
     rm -r $INSTALL_DIR
 fi
 
-mkdir $INSTALL_DIR
+mkdir -p $INSTALL_DIR
 
 cp -r ./src/* $INSTALL_DIR/
 
