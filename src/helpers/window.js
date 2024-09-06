@@ -100,7 +100,7 @@ export function getWindowSizes(workspace, activeMonitorOnly) {
     return windowSizes;
 }
 
-export function getNearbyWindows(window, vertical, strict) {
+export function getNearbyWindows(window, vertical, direction, strict = true) {
     let workspace = getWorkspace(window);
 
     let allWindowSizes = getWindowSizes(workspace, false);
@@ -111,7 +111,7 @@ export function getNearbyWindows(window, vertical, strict) {
         filteredWindowSizes = allWindowSizes;
     }
 
-    let sortedWindowSizes = sortWindows(window, filteredWindowSizes, vertical);
+    let sortedWindowSizes = sortWindows(window, filteredWindowSizes, vertical, direction);
 
     let currentIndex = sortedWindowSizes.findIndex(x => x.window === window);
 
@@ -152,32 +152,37 @@ function filterWindows(window, windows, vertical) {
     return windows.filter(filterCallback);
 }
 
-function sortWindows(window, windows, vertical) {
+function sortWindows(window, windows, vertical, direction) {
     let windowSize = getWindowSize(window);
 
     let calculatedwindows = [];
     for (let otherWindow of windows) {
-        let min = vertical
-            ? (otherWindow.size.x > windowSize.x ? otherWindow.size.x : windowSize.x)
-            : (otherWindow.size.y > windowSize.y ? otherWindow.size.y : windowSize.y);
 
-        let max = vertical
-            ? (otherWindow.size.x + otherWindow.size.width < windowSize.x + windowSize.width
-                ? otherWindow.size.x + otherWindow.size.width
-                : windowSize.x + windowSize.width)
-            : (otherWindow.size.y + otherWindow.size.height < windowSize.y + windowSize.height
-                ? otherWindow.size.y + otherWindow.size.height
-                : windowSize.y + windowSize.height);
+        let otherWindowSize = otherWindow.size;
 
-        let closeness = vertical ? windowSize.y + otherWindow.size.y : windowSize.x + otherWindow.size.x;
+        let currentWindowPosition = vertical
+            ? direction < 0
+                ? windowSize.y
+                : windowSize.y + windowSize.height
+            : direction < 0
+                ? windowSize.x
+                : windowSize.x + windowSize.width;
+
+        let otherWindowPosition = vertical
+            ? direction > 0
+                ? otherWindowSize.y
+                : otherWindowSize.y + otherWindowSize.height
+            : direction > 0
+                ? otherWindowSize.x
+                : otherWindowSize.x + otherWindowSize.width;
 
         calculatedwindows.push({
             window: otherWindow,
-            range: closeness - (max - min)
+            closeness: currentWindowPosition + otherWindowPosition
         });
     }
 
-    calculatedwindows = calculatedwindows.sort((a, b) => a.range - b.range);
+    calculatedwindows = calculatedwindows.sort((a, b) => a.closeness - b.closeness);
 
     return calculatedwindows.map(x => x.window);
 }

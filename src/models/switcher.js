@@ -28,7 +28,7 @@ export default GObject.registerClass(
         _switch(direction, vertical) {
             let window = windowHelper.getFocusedWindow();
 
-            let [currentWindowIndex, windows] = windowHelper.getNearbyWindows(window, vertical, true);
+            let [currentWindowIndex, windows] = windowHelper.getNearbyWindows(window, vertical, direction, true);
 
             let otherWindowIndex = currentWindowIndex + direction;
 
