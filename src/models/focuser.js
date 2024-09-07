@@ -29,9 +29,13 @@ export default GObject.registerClass(
 
             let [currentWindowIndex, windows] = windowHelper.getNearbyWindows(window, vertical, direction);
 
-            currentWindowIndex = (windows.length + currentWindowIndex + direction) % windows.length;
+            let otherWindowIndex = currentWindowIndex + direction;
 
-            windowHelper.focusWindow(windows[currentWindowIndex].window);
+            if (otherWindowIndex < 0 || otherWindowIndex >= windows.length) {
+                return;
+            }
+
+            windowHelper.focusWindow(windows[otherWindowIndex].window);
         }
 
         destroy() { }

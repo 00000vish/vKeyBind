@@ -2,12 +2,12 @@
 <schemalist gettext-domain="gnome-shell-extensions">
     <schema path="/org/gnome/shell/extensions/vkeybind/" id="org.gnome.shell.extensions.vkeybind">
         <key name="maximize-mode" type="b">
-            <default>true</default>
+            <default>false</default>
             <summary>Maximize the first opened window.</summary>
             <description>Maximize the first opened window.</description>
         </key>
         <key name="ultra-wide-mode" type="b">
-            <default>false</default>
+            <default>true</default>
             <summary></summary>
             <description>Vertically maximize or centers the first window.</description>
         </key>
@@ -27,12 +27,12 @@
             <description>Maximum rows of tiled windows.</description>
         </key>
         <key name="window-resize-amount" type="u">
-            <default>1</default>
+            <default>15</default>
             <summary>Window resize amount.</summary>
             <description>Window resize amount.</description>
         </key>
         <key name="keep-original-size" type="b">
-            <default>true</default>
+            <default>false</default>
             <summary>Keep original window size when switched.</summary>
             <description>Keep original window size when switched.</description>
         </key>

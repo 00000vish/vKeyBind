@@ -100,7 +100,7 @@ export function getWindowSizes(workspace, activeMonitorOnly) {
     return windowSizes;
 }
 
-export function getNearbyWindows(window, vertical, direction, strict = true) {
+export function getNearbyWindows(window, vertical, direction, strict = false) {
     let workspace = getWorkspace(window);
 
     let allWindowSizes = getWindowSizes(workspace, false);
@@ -119,34 +119,37 @@ export function getNearbyWindows(window, vertical, direction, strict = true) {
 }
 
 function filterWindows(window, windows, vertical) {
-    let currentWindowSize = getWindowSize(window);
+    let windowSize = getWindowSize(window);
 
-    let filterCallback = (otherWindowSize) => {
+    let filterCallback = (otherWindow) => {
 
-        if (currentWindowSize.x < otherWindowSize.x &&
-            currentWindowSize.width > otherWindowSize.width &&
-            currentWindowSize.y < otherWindowSize.y &&
-            currentWindowSize.height > otherWindowSize.height) {
+        let otherWindowSize = otherWindow.size;
+
+        if (windowSize.x < otherWindowSize.x &&
+            windowSize.width > otherWindowSize.width &&
+            windowSize.y < otherWindowSize.y &&
+            windowSize.height > otherWindowSize.height) {
             return false;
         }
 
-        let otherMin = vertical
-            ? otherWindowSize.size.x
-            : otherWindowSize.size.y;
+        let otherWindowMin = vertical
+            ? otherWindowSize.x
+            : otherWindowSize.y;
 
-        let otherMax = vertical
-            ? otherWindowSize.size.x + otherWindowSize.size.width
-            : otherWindowSize.size.y + otherWindowSize.size.height;
+        let otherWindowMax = vertical
+            ? otherWindowSize.x + otherWindowSize.width
+            : otherWindowSize.y + otherWindowSize.height;
 
-        let min = vertical
-            ? currentWindowSize.x
-            : currentWindowSize.y;
+        let windowMin = vertical
+            ? windowSize.x
+            : windowSize.y;
 
-        let max = vertical
-            ? currentWindowSize.x + currentWindowSize.width
-            : currentWindowSize.y + currentWindowSize.height;
+        let windowMax = vertical
+            ? windowSize.x + windowSize.width
+            : windowSize.y + windowSize.height;
 
-        return min < otherMax && max > otherMin;
+        return windowMin < otherWindowMax && windowMax > otherWindowMin
+            || otherWindowMin < windowMax && otherWindowMax > windowMin;
     }
 
     return windows.filter(filterCallback);
@@ -160,15 +163,19 @@ function sortWindows(window, windows, vertical, direction) {
 
         let otherWindowSize = otherWindow.size;
 
-        let currentWindowPosition = vertical
-            ? direction < 0
-                ? windowSize.y
-                : windowSize.y + windowSize.height
-            : direction < 0
-                ? windowSize.x
-                : windowSize.x + windowSize.width;
+        let min = vertical
+            ? (otherWindowSize.x > windowSize.x ? otherWindowSize.x : windowSize.x)
+            : (otherWindowSize.y > windowSize.y ? otherWindowSize.y : windowSize.y);
 
-        let otherWindowPosition = vertical
+        let max = vertical
+            ? (otherWindowSize.x + otherWindowSize.width < windowSize.x + windowSize.width
+                ? otherWindowSize.x + otherWindowSize.width
+                : windowSize.x + windowSize.width)
+            : (otherWindowSize.y + otherWindowSize.height < windowSize.y + windowSize.height
+                ? otherWindowSize.y + otherWindowSize.height
+                : windowSize.y + windowSize.height);
+
+        let closeness = vertical
             ? direction > 0
                 ? otherWindowSize.y
                 : otherWindowSize.y + otherWindowSize.height
@@ -178,7 +185,7 @@ function sortWindows(window, windows, vertical, direction) {
 
         calculatedwindows.push({
             window: otherWindow,
-            closeness: currentWindowPosition + otherWindowPosition
+            closeness: closeness - (max - min)
         });
     }
 
