@@ -2,6 +2,7 @@ import Gtk from 'gi://Gtk';
 import Adw from 'gi://Adw';
 import Gdk from 'gi://Gdk';
 
+import KeyMapper from './helpers/keymap.js';
 import Settings from './helpers/settings.js';
 
 import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
@@ -79,6 +80,25 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         );
         tileGroup.add(windowMaxRow);
 
+        const keybindingsGroup = new Adw.PreferencesGroup({
+            title: 'Keybindings',
+            description: 'Configure keybinds keys.',
+        });
+        prefsPage.add(keybindingsGroup);
+
+        const moveRightKB = this._buildShortcutButtonRow(
+            Settings.get_kb_move_window_right(),
+            'Move window to right tile',
+            'Move the focused window to the tile on its right',
+            (_, value) => Settings.set_kb_move_window_right(value),
+        );
+        Settings.bind(
+            Settings.KEY_FOCUS_DOWN,
+            moveRightKB,
+            'sensitive',
+        );
+        keybindingsGroup.add(moveRightKB);
+
         const footerGroup = new Adw.PreferencesGroup();
         prefsPage.add(footerGroup);
 
@@ -145,5 +165,23 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         });
 
         return btn;
+    }
+
+    _buildShortcutButtonRow(shortcut, title, subtitle, onChange) {
+        const btn = new KeyMapper(shortcut);
+
+        btn.set_vexpand(false);
+        btn.set_valign(Gtk.Align.CENTER);
+        const adwRow = new Adw.ActionRow({
+            title,
+            subtitle,
+            activatableWidget: btn,
+        });
+
+        adwRow.add_suffix(btn);
+
+        btn.connect('changed', onChange);
+
+        return adwRow;
     }
 }

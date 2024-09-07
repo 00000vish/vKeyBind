@@ -90,6 +90,20 @@ export default class Settings {
         this._settings?.bind(key, object, property, flags);
     }
 
+    static get_kb_move_window_right() {
+        return (
+            this._settings?.get_strv(this.KEY_FOCUS_DOWN)[0] ?? ''
+        );
+    }
+
+    static set_kb_move_window_right(newVal) {
+        return (
+            this._settings?.set_strv(this.KEY_FOCUS_DOWN, [
+                newVal,
+            ]) ?? false
+        );
+    }
+
     static get reference() {
         return this._settings;
     }

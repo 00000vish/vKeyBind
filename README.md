@@ -54,3 +54,7 @@ Gnome extension that allows user to focus, move, switch, resize windows like a t
 
 - [ ] Improve tiling.
 - [ ] Remap keybind from settings.
+
+
+## Thanks 
+https://github.com/domferr/tilingshell
