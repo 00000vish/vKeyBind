@@ -31,7 +31,7 @@
             <summary>Window resize amount.</summary>
             <description>Window resize amount.</description>
         </key>
-        <key name="keep-original-size" type="b">
+        <key name="original-size-mode" type="b">
             <default>false</default>
             <summary>Keep original window size when switched.</summary>
             <description>Keep original window size when switched.</description>

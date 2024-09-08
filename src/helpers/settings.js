@@ -4,7 +4,7 @@ export default class Settings {
     static MAXIMIZE_MODE = 'maximize-mode';
     static ULTRA_WIDE_MODE = 'ultra-wide-mode';
     static GRID_TILE_MODE = 'grid-tile-mode';
-    static KEEP_ORIGINAL_SIZE = "keep-original-size";
+    static ORIGINAL_SIZE_MODE = "original-size-mode";
 
     static WINDOW_RESIZE_AMOUNT = 'window-resize-amount';
     static WINDOW_MAX_COLUMNS = 'window-max-column-tiles';
@@ -62,46 +62,40 @@ export default class Settings {
         if (!this._settings)
             return true;
 
-        return this._settings.get_boolean(this.KEEP_ORIGINAL_SIZE);
+        return this._settings.get_boolean(this.ORIGINAL_SIZE_MODE);
     }
 
-    static getResizeAmount(){
+    static getResizeAmount() {
         if (!this._settings)
             return 4;
 
         return this._settings?.get_uint(this.WINDOW_RESIZE_AMOUNT);
     }
 
-    static getMaxColumns(){
+    static getMaxColumns() {
         if (!this._settings)
             return 4;
 
         return this._settings?.get_uint(this.WINDOW_MAX_COLUMNS);
     }
 
-    static getMaxRows(){
+    static getMaxRows() {
         if (!this._settings)
             return 2;
 
         return this._settings?.get_uint(this.WINDOW_MAX_ROWS);
     }
 
+    static getKeyBind(key) {
+        return (this._settings?.get_strv(key)[0] ?? '');
+    }
+
+    static setKeyBind(key, keybind) {
+        return (this._settings?.set_strv(key, [keybind]) ?? false);
+    }
+
     static bind(key, object, property, flags) {
         this._settings?.bind(key, object, property, flags);
-    }
-
-    static get_kb_move_window_right() {
-        return (
-            this._settings?.get_strv(this.KEY_FOCUS_DOWN)[0] ?? ''
-        );
-    }
-
-    static set_kb_move_window_right(newVal) {
-        return (
-            this._settings?.set_strv(this.KEY_FOCUS_DOWN, [
-                newVal,
-            ]) ?? false
-        );
     }
 
     static get reference() {

@@ -27,29 +27,29 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
 
         const maxmizeSwitch = this._buildSwitchRow(
             Settings.MAXIMIZE_MODE,
-            'Maximize Mode',
+            'Maximize mode',
             'Maximize the first opened window.',
         );
         settingGroup.add(maxmizeSwitch);
 
         const ultraWideSwitch = this._buildSwitchRow(
             Settings.ULTRA_WIDE_MODE,
-            'UltraWide Mode',
+            'UltraWide mode',
             'Vertically maximize or centers the first window.',
         );
         settingGroup.add(ultraWideSwitch);
 
         const keepOriginalSizeSwitch = this._buildSwitchRow(
-            Settings.KEEP_ORIGINAL_SIZE,
-            'Keep Original Size',
-            'Keep original window size when switched.',
+            Settings.ORIGINAL_SIZE_MODE,
+            'Original size mode',
+            'Keep original window size when windows are switched.',
         );
         settingGroup.add(keepOriginalSizeSwitch);
 
         const resizeAmountRow = this._buildSpinButtonRow(
             Settings.WINDOW_RESIZE_AMOUNT,
-            'Resize Amount',
-            'Window resize amount',
+            'Window adjustment amount',
+            'Window adjustment amount',
         );
         settingGroup.add(resizeAmountRow);
 
@@ -61,21 +61,21 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
 
         const gridTileSwitch = this._buildSwitchRow(
             Settings.GRID_TILE_MODE,
-            'Grid Tile Mode',
+            'Grid tile mode',
             'Tile windows in grid.',
         );
         tileGroup.add(gridTileSwitch);
 
         const windowMaxColumn = this._buildSpinButtonRow(
             Settings.WINDOW_MAX_COLUMNS,
-            'Max Column Tiles',
+            'Max column tiles',
             'Maximum columns of tiled windows.',
         );
         tileGroup.add(windowMaxColumn);
 
         const windowMaxRow = this._buildSpinButtonRow(
             Settings.WINDOW_MAX_ROWS,
-            'Max Row Tiles',
+            'Max row tiles',
             'Maximum rows of tiled windows.',
         );
         tileGroup.add(windowMaxRow);
@@ -87,15 +87,8 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         prefsPage.add(keybindingsGroup);
 
         const moveRightKB = this._buildShortcutButtonRow(
-            Settings.get_kb_move_window_right(),
-            'Move window to right tile',
-            'Move the focused window to the tile on its right',
-            (_, value) => Settings.set_kb_move_window_right(value),
-        );
-        Settings.bind(
             Settings.KEY_FOCUS_DOWN,
-            moveRightKB,
-            'sensitive',
+            'Focus window down'
         );
         keybindingsGroup.add(moveRightKB);
 
@@ -167,20 +160,21 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         return btn;
     }
 
-    _buildShortcutButtonRow(shortcut, title, subtitle, onChange) {
-        const btn = new KeyMapper(shortcut);
+    _buildShortcutButtonRow(key, title) {
+        var shortcut = Settings.getKeyBind(key);
 
+        const btn = new KeyMapper(shortcut);
         btn.set_vexpand(false);
         btn.set_valign(Gtk.Align.CENTER);
+        btn.connect('changed', (_, value) => Settings.setKeyBind(key, value.toString()));
+
         const adwRow = new Adw.ActionRow({
             title,
-            subtitle,
             activatableWidget: btn,
         });
-
         adwRow.add_suffix(btn);
 
-        btn.connect('changed', onChange);
+        Settings.bind(key, adwRow, 'sensitive');
 
         return adwRow;
     }
