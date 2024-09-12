@@ -38,7 +38,7 @@ export default class Settings {
     }
 
     static destroy() {
-        this._settings.destory();
+        this._settings = null;
     }
 
     static resetKeyBinds() {
