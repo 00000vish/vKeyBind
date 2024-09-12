@@ -56,22 +56,26 @@ export default GObject.registerClass(
 
         destroy() {
             Main.wm.removeKeybinding(Settings.KEY_TILE);
-            Main.wm.removeKeybinding(Settings.KEY_FOCUS_RIGHT);
-            Main.wm.removeKeybinding(Settings.KEY_FOCUS_LEFT);
-            Main.wm.removeKeybinding(Settings.KEY_FOCUS_UP);
-            Main.wm.removeKeybinding(Settings.KEY_FOCUS_DOWN);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_RIGHT);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_LEFT);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_UP);
             Main.wm.removeKeybinding(Settings.KEY_SWITCH_DOWN);
-            Main.wm.removeKeybinding(Settings.KEY_MOVE_RIGHT);
-            Main.wm.removeKeybinding(Settings.KEY_MOVE_LEFT);
-            Main.wm.removeKeybinding(Settings.KEY_MOVE_UP);
-            Main.wm.removeKeybinding(Settings.KEY_MOVE_DOWN);
             Main.wm.removeKeybinding(Settings.KEY_GROW_X);
             Main.wm.removeKeybinding(Settings.KEY_GROW_Y);
             Main.wm.removeKeybinding(Settings.KEY_SHRINK_X);
             Main.wm.removeKeybinding(Settings.KEY_SHRINK_Y);
+            Main.wm.removeKeybinding(Settings.KEY_FOCUS_RIGHT);
+            Main.wm.removeKeybinding(Settings.KEY_FOCUS_LEFT);
+            Main.wm.removeKeybinding(Settings.KEY_FOCUS_UP);
+            Main.wm.removeKeybinding(Settings.KEY_FOCUS_DOWN);
+            Main.wm.removeKeybinding(Settings.KEY_MOVE_RIGHT);
+            Main.wm.removeKeybinding(Settings.KEY_MOVE_LEFT);
+            Main.wm.removeKeybinding(Settings.KEY_MOVE_UP);
+            Main.wm.removeKeybinding(Settings.KEY_MOVE_DOWN);
+            Main.wm.removeKeybinding(Settings.KEY_SNAP_RIGHT);
+            Main.wm.removeKeybinding(Settings.KEY_SNAP_LEFT);
+            Main.wm.removeKeybinding(Settings.KEY_SNAP_UP);
+            Main.wm.removeKeybinding(Settings.KEY_SNAP_DOWN);
         }
     }
 );

@@ -9,7 +9,7 @@ import Settings from './helpers/settings.js';
 import Snapper from './models/snapper.js';
 
 export default GObject.registerClass(
-    class Gtile extends GObject.Object {
+    class vKeyBind extends GObject.Object {
         _tiler;
         _resizer;
         _focuser;

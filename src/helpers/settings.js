@@ -37,6 +37,10 @@ export default class Settings {
         this._settings = settings;
     }
 
+    static destroy() {
+        this._settings.destory();
+    }
+
     static isMaximizeMode() {
         if (!this._settings)
             return true;

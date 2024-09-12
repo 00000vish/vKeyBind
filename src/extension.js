@@ -1,27 +1,20 @@
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 
-import Gtile from './gtile.js'
+import vKeyBind from './vkeybind.js'
 import Settings from './helpers/settings.js';
 
 export default class GtileExtension extends Extension {
     _indicator;
-    _gtile;
-
-    _initialize() {
-        Settings.initialize(this.getSettings());
-    }
-
-    _createGtile() {
-        this._gtile = new Gtile();
-    }
+    _vKeyBind;
 
     enable() {
-        this._initialize();
-        this._createGtile();
+        Settings.initialize(this.getSettings());
+        this._vkeyBind = new vKeyBind();
     }
 
     disable() {
-        this._gtile?.destroy();
-        this._gtile = null;
+        Settings.destroy();
+        this._vKeyBind?.destroy();
+        this._vkeyBind = null;
     }
 }

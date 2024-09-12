@@ -104,7 +104,7 @@
 		</key>
         <key name="grow-x-hotkey" type="as">
 			<default><![CDATA[['<Alt><Super>L']]]></default>
-			 <summary>Grow focused window in X axis</summary>
+			 <summary>Grow focused window in X axis.</summary>
 		</key>
         <key name="shrink-y-hotkey" type="as">
 			<default><![CDATA[['<Alt><Super>K']]]></default>

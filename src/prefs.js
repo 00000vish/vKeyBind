@@ -48,7 +48,7 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
 
         const resizeAmountRow = this._buildSpinButtonRow(
             Settings.WINDOW_RESIZE_AMOUNT,
-            'Window adjustment amount',
+            'Window adjustment',
             'Window adjustment amount',
         );
         settingGroup.add(resizeAmountRow);
@@ -81,16 +81,169 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         tileGroup.add(windowMaxRow);
 
         const keybindingsGroup = new Adw.PreferencesGroup({
-            title: 'Keybindings',
+            title: 'Key Bindings',
             description: 'Configure keybinds keys.',
         });
         prefsPage.add(keybindingsGroup);
 
-        const moveRightKB = this._buildShortcutButtonRow(
-            Settings.KEY_FOCUS_DOWN,
-            'Focus window down'
+        const tileKeybindingsGroup = new Adw.PreferencesGroup({
+            title: 'Tile keybinds',
+        });
+        keybindingsGroup.add(tileKeybindingsGroup);
+
+        const tilingKey = this._buildShortcutButtonRow(
+            Settings.KEY_TILE,
+            'Tile windows opened in current workspace.'
         );
-        keybindingsGroup.add(moveRightKB);
+        tileKeybindingsGroup.add(tilingKey);
+
+
+        const focusKeybindingsGroup = new Adw.PreferencesGroup({
+            title: 'Focus keybinds',
+        });
+        keybindingsGroup.add(focusKeybindingsGroup);
+
+        const focusRightKey = this._buildShortcutButtonRow(
+            Settings.KEY_FOCUS_RIGHT,
+            'Focus right of current window.'
+        );
+        focusKeybindingsGroup.add(focusRightKey);
+
+        const focusLeftKey = this._buildShortcutButtonRow(
+            Settings.KEY_FOCUS_LEFT,
+            'Focus left of current window.'
+        );
+        focusKeybindingsGroup.add(focusLeftKey);
+
+        const focusUpKey = this._buildShortcutButtonRow(
+            Settings.KEY_FOCUS_UP,
+            'Focus up of current window.'
+        );
+        focusKeybindingsGroup.add(focusUpKey);
+
+        const focusDownKey = this._buildShortcutButtonRow(
+            Settings.KEY_FOCUS_DOWN,
+            'Focus down of current window.'
+        );
+        focusKeybindingsGroup.add(focusDownKey);
+
+
+
+        const moveKeybindingsGroup = new Adw.PreferencesGroup({
+            title: 'Move keybinds',
+        });
+        keybindingsGroup.add(moveKeybindingsGroup);
+
+        const moveRightKey = this._buildShortcutButtonRow(
+            Settings.KEY_MOVE_RIGHT,
+            'Move right the focused window.'
+        );
+        moveKeybindingsGroup.add(moveRightKey);
+
+        const moveLeftKey = this._buildShortcutButtonRow(
+            Settings.KEY_MOVE_LEFT,
+            'Move left the focused window.'
+        );
+        moveKeybindingsGroup.add(moveLeftKey);
+
+        const moveUpKey = this._buildShortcutButtonRow(
+            Settings.KEY_MOVE_UP,
+            'Move up the focused window.'
+        );
+        moveKeybindingsGroup.add(moveUpKey);
+
+        const moveDownKey = this._buildShortcutButtonRow(
+            Settings.KEY_MOVE_DOWN,
+            'Move down the focused window.'
+        );
+        moveKeybindingsGroup.add(moveDownKey);
+
+        const resizeKeybindingsGroup = new Adw.PreferencesGroup({
+            title: 'Resize keybinds',
+        });
+        keybindingsGroup.add(resizeKeybindingsGroup);
+
+        const resizeLeftKey = this._buildShortcutButtonRow(
+            Settings.KEY_GROW_X,
+            'Grow focused window in X axis.'
+        );
+        resizeKeybindingsGroup.add(resizeLeftKey);
+
+        const resizeRightKey = this._buildShortcutButtonRow(
+            Settings.KEY_SHRINK_X,
+            'Shrink focused window in X axis.'
+        );
+        resizeKeybindingsGroup.add(resizeRightKey);
+
+        const resizeUpKey = this._buildShortcutButtonRow(
+            Settings.KEY_SHRINK_Y,
+            'Shrink focused window in Y axis.'
+        );
+        resizeKeybindingsGroup.add(resizeUpKey);
+
+        const resizeDownKey = this._buildShortcutButtonRow(
+            Settings.KEY_GROW_Y,
+            'Grow focused window in Y axis'
+        );
+        resizeKeybindingsGroup.add(resizeDownKey);
+
+        const snapKeybindingsGroup = new Adw.PreferencesGroup({
+            title: 'Snap keybinds',
+        });
+        keybindingsGroup.add(snapKeybindingsGroup);
+
+        const snapRightKey = this._buildShortcutButtonRow(
+            Settings.KEY_SNAP_RIGHT,
+            'Snap focused window right.'
+        );
+        snapKeybindingsGroup.add(snapRightKey);
+
+        const snapLeftKey = this._buildShortcutButtonRow(
+            Settings.KEY_SNAP_LEFT,
+            'Snap focused window left.'
+        );
+        snapKeybindingsGroup.add(snapLeftKey);
+
+        const snapUpKey = this._buildShortcutButtonRow(
+            Settings.KEY_SNAP_UP,
+            'Snap focused window up.'
+        );
+        snapKeybindingsGroup.add(snapUpKey);
+
+        const snapDownKey = this._buildShortcutButtonRow(
+            Settings.KEY_SNAP_DOWN,
+            'Snap focused window down.'
+        );
+        snapKeybindingsGroup.add(snapDownKey);
+
+        const switchKeybindingsGroup = new Adw.PreferencesGroup({
+            title: 'Switch keybinds',
+        });
+        keybindingsGroup.add(switchKeybindingsGroup);
+
+        const switchRightKey = this._buildShortcutButtonRow(
+            Settings.KEY_SWITCH_RIGHT,
+            'Switch current window with right window.'
+        );
+        switchKeybindingsGroup.add(switchRightKey);
+
+        const switchLeftKey = this._buildShortcutButtonRow(
+            Settings.KEY_SWITCH_LEFT,
+            'Switch current window with left window.'
+        );
+        switchKeybindingsGroup.add(switchLeftKey);
+
+        const switchUpKey = this._buildShortcutButtonRow(
+            Settings.KEY_SWITCH_UP,
+            'Switch current window with up window.'
+        );
+        switchKeybindingsGroup.add(switchUpKey);
+
+        const switchDownKey = this._buildShortcutButtonRow(
+            Settings.KEY_SWITCH_DOWN,
+            'Switch current window with down window.'
+        );
+        switchKeybindingsGroup.add(switchDownKey);
 
         const footerGroup = new Adw.PreferencesGroup();
         prefsPage.add(footerGroup);
@@ -105,6 +258,9 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         );
 
         window.searchEnabled = true;
+        window.connect('close-request', () => {
+            Settings.destroy();
+        });
     }
 
     _buildSwitchRow(settingKey, title, subtitle, suffix) {
