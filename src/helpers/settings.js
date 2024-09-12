@@ -41,6 +41,14 @@ export default class Settings {
         this._settings.destory();
     }
 
+    static resetKeyBinds() {
+        for (let key of Object.keys(this)) {
+            if (key.startsWith("KEY_")) {
+                this._settings.reset(this[key]);
+            }
+        }
+    }
+
     static isMaximizeMode() {
         if (!this._settings)
             return true;

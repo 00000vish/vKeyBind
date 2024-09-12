@@ -83,8 +83,18 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         const keybindingsGroup = new Adw.PreferencesGroup({
             title: 'Key Bindings',
             description: 'Configure keybinds keys.',
+            headerSuffix: new Gtk.Button({
+                label: "Reset",
+                hexpand: false,
+                vexpand: false,
+            }),
         });
         prefsPage.add(keybindingsGroup);
+
+        keybindingsGroup.headerSuffix.connect('clicked', () => {
+            Settings.resetKeyBinds();
+            window.close();
+        });
 
         const tileKeybindingsGroup = new Adw.PreferencesGroup({
             title: 'Tile keybinds',
@@ -96,7 +106,6 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
             'Tile windows opened in current workspace.'
         );
         tileKeybindingsGroup.add(tilingKey);
-
 
         const focusKeybindingsGroup = new Adw.PreferencesGroup({
             title: 'Focus keybinds',
@@ -126,8 +135,6 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
             'Focus down of current window.'
         );
         focusKeybindingsGroup.add(focusDownKey);
-
-
 
         const moveKeybindingsGroup = new Adw.PreferencesGroup({
             title: 'Move keybinds',

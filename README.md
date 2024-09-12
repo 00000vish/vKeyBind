@@ -53,7 +53,6 @@ Gnome extension that allows user to focus, move, switch, resize windows like a t
 ## TODO <a name="todo"></a>
 
 - [ ] Improve tiling.
-- [ ] Remap keybind from settings.
 
 
 ## Thanks 

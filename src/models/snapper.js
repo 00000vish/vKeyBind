@@ -26,37 +26,31 @@ export default GObject.registerClass(
         }
 
         _snap(direction, vertical) {
-            try {
-                let window = windowHelper.getFocusedWindow();
+            let window = windowHelper.getFocusedWindow();
 
-                let [currentWindowIndex, windows] = windowHelper.getNearbyWindows(window, vertical, direction, true);
+            let [currentWindowIndex, windows] = windowHelper.getNearbyWindows(window, vertical, direction, true);
 
-                let otherWindowIndex = currentWindowIndex + direction;
+            let otherWindowIndex = currentWindowIndex + direction;
 
-                if (otherWindowIndex < 0 || otherWindowIndex >= windows.length) {
-                    this._snapToScreenEdge(direction, vertical, windows[currentWindowIndex])
-                    return;
-                }
-
-                let otherWindowSize = windows[otherWindowIndex].size;
-                let currentWindowSize = windows[currentWindowIndex].size;
-
-                if (vertical) {
-                    currentWindowSize.y = direction > 0
-                        ? otherWindowSize.y - currentWindowSize.height
-                        : otherWindowSize.y + otherWindowSize.height;
-                } else {
-                    currentWindowSize.x = direction > 0
-                        ? otherWindowSize.x - currentWindowSize.width
-                        : otherWindowSize.x + otherWindowSize.width;
-                }
-
-                windowHelper.resizeWindow(window, currentWindowSize);
-
-            } catch (error) {
-                logger(error.toString());
-                logger(error.stack);
+            if (otherWindowIndex < 0 || otherWindowIndex >= windows.length) {
+                this._snapToScreenEdge(direction, vertical, windows[currentWindowIndex])
+                return;
             }
+
+            let otherWindowSize = windows[otherWindowIndex].size;
+            let currentWindowSize = windows[currentWindowIndex].size;
+
+            if (vertical) {
+                currentWindowSize.y = direction > 0
+                    ? otherWindowSize.y - currentWindowSize.height
+                    : otherWindowSize.y + otherWindowSize.height;
+            } else {
+                currentWindowSize.x = direction > 0
+                    ? otherWindowSize.x - currentWindowSize.width
+                    : otherWindowSize.x + otherWindowSize.width;
+            }
+
+            windowHelper.resizeWindow(window, currentWindowSize);
         }
 
         _snapToScreenEdge(direction, vertical, window) {
