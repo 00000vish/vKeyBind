@@ -43,6 +43,11 @@ Gnome extension that allows user to focus, move, switch, resize windows like a t
 
 ## Install <a name="install"></a>
 
+### Gnome Extension
+https://extensions.gnome.org/extension/7317/vkeybind/
+
+### Building from source
+
 1. ```git clone https://github.com/00000vish/vKeyBind```
 2. ```cd ./vKeyBind ``` go inside the project directory.
 3. (optional) ```vim ./src/schemas/org.gnome.shell.extensions.vkeybind.gschema.xml``` to change keybinds.
@@ -52,7 +57,8 @@ Gnome extension that allows user to focus, move, switch, resize windows like a t
 
 ## TODO <a name="todo"></a>
 
-- [ ] Improve tiling.
+- [ ] Improve tiling logic.
+- [ ] Improve snap logic.
 
 
 ## Thanks 
