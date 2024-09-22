@@ -2,7 +2,11 @@
 
 echo "Building vKeyBind..."
 
-zip -r vkeybind.zip ./src -x ./src/helpers/logger.js
+cd ./src/
+
+zip -r vkeybind.zip ./ -x ./src/helpers/logger.js
+
+mv ./vkeybind.zip ../vkeybind.zip
 
 echo "Done"
 
