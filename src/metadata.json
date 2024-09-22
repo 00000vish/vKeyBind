@@ -2,7 +2,7 @@
     "name": "vKeyBind",
     "description": "Gnome extension that focus, snap, switch and resize windows with keybinds.",
     "uuid": "vkeybind@00000vish",
-    "shell-version": ["46"],
+    "shell-version": ["46", "47"],
     "version": "1.0.0",
     "url": "https://github.com/00000vish/vkeybind",
     "settings-schema": "org.gnome.shell.extensions.vkeybind"

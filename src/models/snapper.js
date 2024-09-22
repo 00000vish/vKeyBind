@@ -26,9 +26,7 @@ export default GObject.registerClass(
         }
 
         _snap(direction, vertical) {
-            let window = windowHelper.getFocusedWindow();
-
-            let [currentWindowIndex, windows] = windowHelper.getNearbyWindows(window, vertical, direction, true);
+            let [currentWindowIndex, windows] = this._getNearBySnapableWindow(vertical, direction);
 
             let otherWindowIndex = currentWindowIndex + direction;
 
@@ -36,6 +34,8 @@ export default GObject.registerClass(
                 this._snapToScreenEdge(direction, vertical, windows[currentWindowIndex])
                 return;
             }
+
+            let currentWindow = windows[currentWindowIndex].window;
 
             let otherWindowSize = windows[otherWindowIndex].size;
             let currentWindowSize = windows[currentWindowIndex].size;
@@ -50,7 +50,32 @@ export default GObject.registerClass(
                     : otherWindowSize.x + otherWindowSize.width;
             }
 
-            windowHelper.resizeWindow(window, currentWindowSize);
+            windowHelper.resizeWindow(currentWindow, currentWindowSize);
+        }
+
+        _getNearBySnapableWindow(vertical, direction) {
+            let window = windowHelper.getFocusedWindow();
+            let [windowIndex, windows] = windowHelper.getNearbyWindows(window, vertical, direction, true);
+            let windowInfo = windows[windowIndex];
+
+            windows = windows.filter(x => {
+                if (x === windowInfo) {
+                    return true;
+                }
+
+                if (Math.abs(windowInfo.size.x - (x.size.x + x.size.width)) === 0 ||
+                    Math.abs((windowInfo.size.x + windowInfo.size.width) - x.size.x) === 0 ||
+                    Math.abs(windowInfo.size.y - (x.size.y + x.size.height)) === 0 ||
+                    Math.abs((windowInfo.size.y + windowInfo.size.height) - x.size.y) === 0) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            windowIndex = windows.indexOf(windowInfo);
+
+            return [windowIndex, windows];
         }
 
         _snapToScreenEdge(direction, vertical, window) {

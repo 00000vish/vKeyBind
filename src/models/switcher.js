@@ -36,23 +36,35 @@ export default GObject.registerClass(
                 return;
             }
 
-            let currentWindowSize = windows[currentWindowIndex].size;
-            let otherWindowSize = windows[otherWindowIndex].size;
+            let currentWindow = windows[currentWindowIndex];
+            let otherWindow = windows[otherWindowIndex];
 
-            if (Settings.isKeepOriginalSize()) {
-                if (vertical) {
-                    [currentWindowSize.y, otherWindowSize.y] = [otherWindowSize.y, currentWindowSize.y]
-                } else {
-                    [currentWindowSize.x, otherWindowSize.x] = [otherWindowSize.x, currentWindowSize.x]
-                }
-            } else {
+            let currentWindowSize = currentWindow.size;
+            let otherWindowSize = otherWindow.size;
+
+            if (!Settings.isKeepOriginalSize()) {
                 [currentWindowSize, otherWindowSize] = [otherWindowSize, currentWindowSize]
+            } else {
+                let switchSizes = (windowA, windowB) => {
+                    if (direction > 0) {
+                        [windowA, windowB] = [windowB, windowA]
+                    }
+
+                    if (vertical) {
+                        windowA.y = windowB.y
+                        windowB.y = windowA.y + windowA.height;
+                    } else {
+                        windowA.x = windowB.x;
+                        windowB.x = windowA.x + windowA.width;
+                    }
+                }
+
+                switchSizes(currentWindowSize, otherWindowSize)
             }
 
-            windowHelper.resizeWindow(windows[currentWindowIndex].window, currentWindowSize);
-            windowHelper.resizeWindow(windows[otherWindowIndex].window, otherWindowSize);
+            windowHelper.resizeWindow(currentWindow.window, currentWindowSize);
+            windowHelper.resizeWindow(otherWindow.window, otherWindowSize);
         }
-
 
         destroy() { }
     }

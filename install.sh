@@ -14,5 +14,4 @@ cp -r ./src/* $INSTALL_DIR/
 
 glib-compile-schemas $INSTALL_DIR/schemas/
 
-sudo systemctl restart gdm  
-
+sudo systemctl restart gdm

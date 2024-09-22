@@ -122,6 +122,8 @@ function filterWindows(window, windows, vertical) {
     let windowSize = getWindowSize(window);
 
     let filterCallback = (otherWindow) => {
+        if(otherWindow.window === window)
+            return true;
 
         let otherWindowSize = otherWindow.size;
 
