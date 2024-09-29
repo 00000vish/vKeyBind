@@ -18,18 +18,18 @@ Gnome extension that allows user to focus, move, switch, resize windows like a t
 | META+SHIFT+L  | Focus to the window right. |
 | META+SHIFT+J  | Focus to the window down. |
 | META+SHIFT+K  | Focus to the window up. |
-| META+CTRL+ALT+H  | Switch current window with left window. |
-| META+CTRL+ALT+L  | Switch current window with right window. |
-| META+CTRL+ALT+J  | Switch current window with down window. |
-| META+CTRL+ALT+K  | Switch current window with up window. |
+| META+CTRL+SHIFT+H  | Switch current window with left window. |
+| META+CTRL+SHIFT+L  | Switch current window with right window. |
+| META+CTRL+SHIFT+J  | Switch current window with down window. |
+| META+CTRL+SHIFT+K  | Switch current window with up window. |
 | META+CTRL+H  | Move current window to the left. |
 | META+CTRL+L  | Move current window to the right. |
 | META+CTRL+J  | Move current window to the down. |
 | META+CTRL+K  | Move current window to the up. |
-| META+CTRL+SHIFT+H  | Snap current window to the left. |
-| META+CTRL+SHIFT+L  | Snap current window to the right. |
-| META+CTRL+SHIFT+J  | Snap current window to the down. |
-| META+CTRL+SHIFT+K  | Snap current window to the up. |
+| META+CTRL+ALT+H  | Snap current window to the left. |
+| META+CTRL+ALT+L  | Snap current window to the right. |
+| META+CTRL+ALT+J  | Snap current window to the down. |
+| META+CTRL+ALT+K  | Snap current window to the up. |
 | META+CTRL+H  | Shrink the focused window horizontally. |
 | META+CTRL+L  | Grow the focused window horizontally. |
 | META+CTRL+K  | Shrink the focused window vertically. |
