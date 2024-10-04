@@ -1,4 +1,22 @@
 import Meta from 'gi://Meta';
+import logger from '../helpers/logger.js'
+
+export function getFocusedWindow() {
+    var window = global.display.get_focus_window();
+
+    return {
+        ref: window,
+        size: window.get_frame_rect()
+    };
+}
+
+export function getWorkspace(window) {
+    return window.ref.get_workspace();
+}
+
+export function getWindowSize(window) {
+    return window.ref.get_frame_rect();
+}
 
 export function getWindowsInWorkspace(workspace, activeMonitorOnly) {
     let display = workspace.get_display();
@@ -9,30 +27,21 @@ export function getWindowsInWorkspace(workspace, activeMonitorOnly) {
     let windowList = [];
     for (let window of windows) {
         let monitor = window.get_monitor();
+
         if (monitor !== currentMonitor && activeMonitorOnly)
             continue;
 
-        windowList.push(window);
+        windowList.push({
+            ref: window,
+            size: window.get_frame_rect()
+        });
     }
 
     return windowList;
 }
 
-export function getWorkspace(window) {
-    return window.get_workspace();
-}
-
-export function getFocusedWindow() {
-    return global.display.get_focus_window();
-}
-
-export function getWindowSize(window) {
-    return window.get_frame_rect();
-}
-
 export function invokeOnWinowReady(window, callback) {
-    let windowActor = window.get_compositor_private();
-
+    let windowActor = window.ref.get_compositor_private();
     windowActor.remove_all_transitions();
 
     let signal = windowActor.connect(
@@ -47,22 +56,18 @@ export function invokeOnWinowReady(window, callback) {
 }
 
 export function centerWindow(window, size) {
-    let windowSize = window.get_frame_rect();
-
     let middle = {
-        x: (size.x + size.width / 2) - (windowSize.width / 2),
-        y: (size.y + size.height / 2) - (windowSize.height / 2),
+        x: (size.x + size.width / 2) - (window.size.width / 2),
+        y: (size.y + size.height / 2) - (window.size.height / 2),
     };
 
-    window.move_frame(false, middle.x, middle.y);
+    window.ref.move_frame(false, middle.x, middle.y);
 }
 
 export function resizeWindow(window, size) {
-    window.unmaximize(Meta.MaximizeFlags.BOTH)
-
-    window.move_frame(false, size.x, size.y);
-
-    window.move_resize_frame(
+    window.ref.unmaximize(Meta.MaximizeFlags.BOTH)
+    window.ref.move_frame(false, size.x, size.y);
+    window.ref.move_resize_frame(
         false,
         size.x,
         size.y,
@@ -72,97 +77,93 @@ export function resizeWindow(window, size) {
 }
 
 export function maximizeWindow(window) {
-    window.maximize(Meta.MaximizeFlags.BOTH);
-
-    window.focus(global.get_current_time());
+    window.ref.maximize(Meta.MaximizeFlags.BOTH);
+    window.ref.focus(global.get_current_time());
 }
 
 export function focusWindow(window) {
-    window.make_above();
-    window.focus(global.get_current_time());
-    window.unmake_above();
-}
-
-export function getWindowSizes(workspace, activeMonitorOnly) {
-    let windows = getWindowsInWorkspace(workspace, activeMonitorOnly);
-
-    let windowSizes = [];
-    for (let window of windows) {
-        let size = window.get_frame_rect();
-        windowSizes.push(
-            {
-                window: window,
-                size: size
-            }
-        );
-    }
-
-    return windowSizes;
+    window.ref.make_above();
+    window.ref.focus(global.get_current_time());
+    window.ref.unmake_above();
 }
 
 export function getNearbyWindows(window, vertical, direction, strict = false) {
     let workspace = getWorkspace(window);
+    let allWindows = getWindowsInWorkspace(workspace, false);
+    let filteredWindows = filterWindows(window, allWindows, vertical, direction);
 
-    let allWindowSizes = getWindowSizes(workspace, false);
-
-    let filteredWindowSizes = filterWindows(window, allWindowSizes, vertical);
-
-    if (filteredWindowSizes.length <= 1 && !strict) {
-        filteredWindowSizes = allWindowSizes;
+    if (filteredWindows.length <= 1 && !strict) {
+        filteredWindows = allWindows;
     }
 
-    let sortedWindowSizes = sortWindows(window, filteredWindowSizes, vertical, direction);
+    let sortedWindowSizes = sortWindows(window, filteredWindows, vertical, direction);
 
-    let currentIndex = sortedWindowSizes.findIndex(x => x.window === window);
+    let currentIndex = sortedWindowSizes.findIndex(x => x.ref.get_id() === window.ref.get_id());
 
     return [currentIndex, sortedWindowSizes];
 }
 
-function filterWindows(window, windows, vertical) {
-    let windowSize = getWindowSize(window);
-
+function filterWindows(window, windows, vertical, direction) {
     let filterCallback = (otherWindow) => {
-        if(otherWindow.window === window)
+        if (otherWindow.ref.get_id() === window.ref.get_id()) {
             return true;
+        }
 
-        let otherWindowSize = otherWindow.size;
+        let windowPosition = direction > 0
+            ? vertical
+                ? window.size.y + window.size.height
+                : window.size.x + window.size.width
+            : vertical
+                ? window.size.y
+                : window.size.x
 
-        if (windowSize.x < otherWindowSize.x &&
-            windowSize.width > otherWindowSize.width &&
-            windowSize.y < otherWindowSize.y &&
-            windowSize.height > otherWindowSize.height) {
+        let otherWindowPosition = direction > 0
+            ? vertical
+                ? otherWindow.size.y + otherWindow.size.height
+                : otherWindow.size.x + otherWindow.size.width
+            : vertical
+                ? otherWindow.size.y
+                : otherWindow.size.x
+
+        if (direction > 0 && windowPosition > otherWindowPosition ||
+            direction < 0 && windowPosition < otherWindowPosition)
+            return false;
+
+        if (window.size.x < otherWindow.size.x &&
+            window.size.x + window.size.width > otherWindow.size.x + otherWindow.size.width &&
+            window.size.y < otherWindow.size.y &&
+            window.size.y + window.size.height > otherWindow.size.y + otherWindow.size.height) {
             return false;
         }
 
         let otherWindowMin = vertical
-            ? otherWindowSize.x
-            : otherWindowSize.y;
+            ? otherWindow.size.x
+            : otherWindow.size.y;
 
         let otherWindowMax = vertical
-            ? otherWindowSize.x + otherWindowSize.width
-            : otherWindowSize.y + otherWindowSize.height;
+            ? otherWindow.size.x + otherWindow.size.width
+            : otherWindow.size.y + otherWindow.size.height;
 
         let windowMin = vertical
-            ? windowSize.x
-            : windowSize.y;
+            ? window.size.x
+            : window.size.y;
 
         let windowMax = vertical
-            ? windowSize.x + windowSize.width
-            : windowSize.y + windowSize.height;
+            ? window.size.x + window.size.width
+            : window.size.y + window.size.height;
 
-        return windowMin < otherWindowMax && windowMax > otherWindowMin
-            || otherWindowMin < windowMax && otherWindowMax > windowMin;
+        return windowMin < otherWindowMax && windowMax > otherWindowMin ||
+            otherWindowMin < windowMax && otherWindowMax > windowMin;
     }
 
     return windows.filter(filterCallback);
 }
 
 function sortWindows(window, windows, vertical, direction) {
-    let windowSize = getWindowSize(window);
-
     let calculatedwindows = [];
     for (let otherWindow of windows) {
 
+        let windowSize = window.size;
         let otherWindowSize = otherWindow.size;
 
         let min = vertical
@@ -191,7 +192,5 @@ function sortWindows(window, windows, vertical, direction) {
         });
     }
 
-    calculatedwindows = calculatedwindows.sort((a, b) => a.closeness - b.closeness);
-
-    return calculatedwindows.map(x => x.window);
+    return calculatedwindows.sort((a, b) => a.closeness - b.closeness).map(x => x.window);
 }

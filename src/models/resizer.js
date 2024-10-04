@@ -35,7 +35,7 @@ export default GObject.registerClass(
             let workspace = windowHelper.getWorkspace(window);
 
             let screenSize = screenHelper.getScreenSize(workspace);
-            let windowSize = windowHelper.getWindowSize(window);
+            let windowSize = window.size;
 
             let amount = Settings.getResizeAmount() * 10 * (grow ? 1 : -1);
 

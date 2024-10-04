@@ -35,7 +35,7 @@ export default GObject.registerClass(
                 return;
             }
 
-            windowHelper.focusWindow(windows[otherWindowIndex].window);
+            windowHelper.focusWindow(windows[otherWindowIndex]);
         }
 
         destroy() { }

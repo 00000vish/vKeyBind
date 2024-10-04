@@ -35,7 +35,7 @@ export default GObject.registerClass(
                 return;
             }
 
-            let currentWindow = windows[currentWindowIndex].window;
+            let currentWindow = windows[currentWindowIndex];
 
             let otherWindowSize = windows[otherWindowIndex].size;
             let currentWindowSize = windows[currentWindowIndex].size;
@@ -79,7 +79,7 @@ export default GObject.registerClass(
         }
 
         _snapToScreenEdge(direction, vertical, window) {
-            let workspace = windowHelper.getWorkspace(window.window);
+            let workspace = windowHelper.getWorkspace(window);
             let screenSize = screenHelper.getScreenSize(workspace);
 
             if (vertical) {
@@ -92,7 +92,7 @@ export default GObject.registerClass(
                     : screenSize.x + screenSize.width - window.size.width;
             }
 
-            windowHelper.resizeWindow(window.window, window.size);
+            windowHelper.resizeWindow(window, window.size);
         }
 
         destroy() { }

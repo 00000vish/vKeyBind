@@ -34,7 +34,7 @@ export default GObject.registerClass(
 
         _defaultTile(workspace) {
             let screenSize = screenHelper.getScreenSize(workspace);
-            let windowSizes = windowHelper.getWindowSizes(workspace, true)
+            let windowSizes = windowHelper.getWindowsInWorkspace(workspace, true)
 
             windowSizes = windowSizes.sort(this._sortWindow)
 
@@ -63,14 +63,14 @@ export default GObject.registerClass(
                 item.size.x = windowX;
                 item.size.y = windowY;
 
-                windowHelper.resizeWindow(item.window, item.size);
+                windowHelper.resizeWindow(item, item.size);
 
                 windowX += item.size.width;
             }
         }
 
         _gridTile(workspace) {
-            let windowSizes = windowHelper.getWindowSizes(workspace, true)
+            let windowSizes = windowHelper.getWindowsInWorkspace(workspace, true)
 
             windowSizes = windowSizes.sort(this._sortWindow)
 
@@ -100,7 +100,7 @@ export default GObject.registerClass(
                 if (windowIndex >= windowSizes.length) {
                     break;
                 }
-                windowHelper.resizeWindow(windowSizes[windowIndex++].window, screenSplit)
+                windowHelper.resizeWindow(windowSizes[windowIndex++], screenSplit)
             }
         }
 

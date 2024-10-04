@@ -3,6 +3,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 
+import logger from '../helpers/logger.js';
 import Settings from '../helpers/settings.js';
 
 export default GObject.registerClass(
@@ -16,12 +17,22 @@ export default GObject.registerClass(
         }
 
         _setupKeyBinds(settingKey, callback) {
+
+            var tryCallback = () => {
+                try{
+                    callback();
+                }catch(error){
+                    logger(error.message);
+                    logger(error.stack);
+                }
+            }
+
             Main.wm.addKeybinding(
                 settingKey,
                 this._settings,
                 Meta.KeyBindingFlags.NONE,
                 Shell.ActionMode.NORMAL,
-                (callback).bind(this)
+                (tryCallback).bind(this)
             );
         }
 

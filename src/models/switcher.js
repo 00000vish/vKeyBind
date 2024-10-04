@@ -62,8 +62,8 @@ export default GObject.registerClass(
                 switchSizes(currentWindowSize, otherWindowSize)
             }
 
-            windowHelper.resizeWindow(currentWindow.window, currentWindowSize);
-            windowHelper.resizeWindow(otherWindow.window, otherWindowSize);
+            windowHelper.resizeWindow(currentWindow, currentWindowSize);
+            windowHelper.resizeWindow(otherWindow, otherWindowSize);
         }
 
         destroy() { }
