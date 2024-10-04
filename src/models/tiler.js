@@ -32,21 +32,51 @@ export default GObject.registerClass(
             }
         }
 
+        center() {
+            function getRange(array) {
+                let min = Math.min.apply(null, array);
+                let max = Math.max.apply(null, array);
+                return max - min;
+            }
+
+            let window = windowHelper.getFocusedWindow();
+            let workspace = windowHelper.getWorkspace(window);
+            let screenSize = screenHelper.getScreenSize(workspace);
+            let windows = windowHelper.getWindowsInWorkspace(workspace, true);
+
+            let windowWidths = windows.map(x => x.size.width);
+            let windowHeights = windows.map(x => x.size.height);
+
+            let widthRange = getRange(windowWidths);
+            let heightRange = getRange(windowHeights);
+
+            let offsetX = screenSize.x + (screenSize.width / 2) - (widthRange / 2);
+            let offsetY = screenSize.y + (screenSize.height / 2) - (heightRange / 2);
+
+            for (let window of windows) {
+
+                window.size.x += offsetX;
+                window.size.y += offsetY;
+
+                windowHelper.resizeWindow(window, window.size);
+            }
+        }
+
         _defaultTile(workspace) {
             let screenSize = screenHelper.getScreenSize(workspace);
-            let windowSizes = windowHelper.getWindowsInWorkspace(workspace, true)
+            let windows = windowHelper.getWindowsInWorkspace(workspace, true);
 
-            windowSizes = windowSizes.sort(this._sortWindow)
+            windows = windows.sort(this._sortWindow);
 
             let initialWidth = 0;
             let initialHeight = 0;
 
-            let maxWidth = windowSizes.reduce(
+            let maxWidth = windows.reduce(
                 (sum, currentWindow) => sum + currentWindow.size.width,
                 initialWidth,
             );
 
-            let maxHeight = windowSizes.reduce(
+            let maxHeight = windows.reduce(
                 (max, currentWindow) => { return max > currentWindow.size.height ? max : currentWindow.size.height },
                 initialHeight,
             );
@@ -58,34 +88,34 @@ export default GObject.registerClass(
                 return;
             }
 
-            for (let item of windowSizes) {
+            for (let window of windows) {
 
-                item.size.x = windowX;
-                item.size.y = windowY;
+                window.size.x = windowX;
+                window.size.y = windowY;
 
-                windowHelper.resizeWindow(item, item.size);
+                windowHelper.resizeWindow(window, window.size);
 
-                windowX += item.size.width;
+                windowX += window.size.width;
             }
         }
 
         _gridTile(workspace) {
-            let windowSizes = windowHelper.getWindowsInWorkspace(workspace, true)
+            let windows = windowHelper.getWindowsInWorkspace(workspace, true)
 
-            windowSizes = windowSizes.sort(this._sortWindow)
+            windows = windows.sort(this._sortWindow)
 
             let maxCols = Setting.getMaxColumns();
             let maxRows = Settings.getMaxRows();
             let maxWindows = maxCols * maxRows;
 
-            if (windowSizes.length > maxWindows) {
+            if (windows.length > maxWindows) {
                 return;
             }
 
             let screenSize = screenHelper.getScreenSize(workspace);
 
-            let splitSizes = screenHelper.splitScreenColumns(screenSize, windowSizes.length);
-            if (windowSizes.length > maxCols) {
+            let splitSizes = screenHelper.splitScreenColumns(screenSize, windows.length);
+            if (windows.length > maxCols) {
                 splitSizes = [];
                 let rowSizes = screenHelper.splitScreenRows(screenSize, maxRows);
                 for (let rowSize of rowSizes) {
@@ -97,10 +127,10 @@ export default GObject.registerClass(
             let windowIndex = 0;
 
             for (let screenSplit of splitSizes) {
-                if (windowIndex >= windowSizes.length) {
+                if (windowIndex >= windows.length) {
                     break;
                 }
-                windowHelper.resizeWindow(windowSizes[windowIndex++], screenSplit)
+                windowHelper.resizeWindow(windows[windowIndex++], screenSplit)
             }
         }
 

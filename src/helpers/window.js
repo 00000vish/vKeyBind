@@ -1,5 +1,4 @@
 import Meta from 'gi://Meta';
-import logger from '../helpers/logger.js'
 
 export function getFocusedWindow() {
     var window = global.display.get_focus_window();
@@ -90,26 +89,46 @@ export function focusWindow(window) {
 export function getNearbyWindows(window, vertical, direction, strict = false) {
     let workspace = getWorkspace(window);
     let allWindows = getWindowsInWorkspace(workspace, false);
-    let filteredWindows = filterWindows(window, allWindows, vertical, direction);
 
-    if (filteredWindows.length <= 1 && !strict) {
-        filteredWindows = allWindows;
+    let filteredWindowsCord = filterWindowCoordinates(window, allWindows, vertical, direction);
+    if (filteredWindowsCord.length <= 1 && !strict) {
+        filteredWindowsCord = allWindows;
     }
 
-    let sortedWindowSizes = sortWindows(window, filteredWindows, vertical, direction);
+    let filteredWindowsOrien = filterWindowOrientation(window, filteredWindowsCord, vertical);
+    if (filteredWindowsOrien.length <= 1 && !strict) {
+        filteredWindowsOrien = filteredWindowsCord;
+    }
+
+    let sortedWindowSizes = sortWindows(window, filteredWindowsOrien, vertical, direction);
 
     let currentIndex = sortedWindowSizes.findIndex(x => x.ref.get_id() === window.ref.get_id());
 
     return [currentIndex, sortedWindowSizes];
 }
 
-function filterWindows(window, windows, vertical, direction) {
-    let filterCallback = (otherWindow) => {
-        if (otherWindow.ref.get_id() === window.ref.get_id()) {
+function filterWindowCoordinates(focusWindow, windows, vertical, direction) {
+    let filterCallback = (window) => {
+        if (window.ref.get_id() === focusWindow.ref.get_id()) {
             return true;
         }
 
+        if (focusWindow.size.x < window.size.x &&
+            focusWindow.size.x + focusWindow.size.width > window.size.x + window.size.width &&
+            focusWindow.size.y < window.size.y &&
+            focusWindow.size.y + focusWindow.size.height > window.size.y + window.size.height) {
+            return false;
+        }
+
         let windowPosition = direction > 0
+            ? vertical
+                ? focusWindow.size.y + focusWindow.size.height
+                : focusWindow.size.x + focusWindow.size.width
+            : vertical
+                ? focusWindow.size.y
+                : focusWindow.size.x
+
+        let otherWindowPosition = direction > 0
             ? vertical
                 ? window.size.y + window.size.height
                 : window.size.x + window.size.width
@@ -117,40 +136,38 @@ function filterWindows(window, windows, vertical, direction) {
                 ? window.size.y
                 : window.size.x
 
-        let otherWindowPosition = direction > 0
-            ? vertical
-                ? otherWindow.size.y + otherWindow.size.height
-                : otherWindow.size.x + otherWindow.size.width
-            : vertical
-                ? otherWindow.size.y
-                : otherWindow.size.x
-
         if (direction > 0 && windowPosition > otherWindowPosition ||
-            direction < 0 && windowPosition < otherWindowPosition)
-            return false;
-
-        if (window.size.x < otherWindow.size.x &&
-            window.size.x + window.size.width > otherWindow.size.x + otherWindow.size.width &&
-            window.size.y < otherWindow.size.y &&
-            window.size.y + window.size.height > otherWindow.size.y + otherWindow.size.height) {
+            direction < 0 && windowPosition < otherWindowPosition) {
             return false;
         }
 
+        return true;
+    }
+
+    return windows.filter(filterCallback);
+}
+
+function filterWindowOrientation(focusWindow, windows, vertical) {
+    let filterCallback = (window) => {
+        if (window.ref.get_id() === focusWindow.ref.get_id()) {
+            return true;
+        }
+
         let otherWindowMin = vertical
-            ? otherWindow.size.x
-            : otherWindow.size.y;
-
-        let otherWindowMax = vertical
-            ? otherWindow.size.x + otherWindow.size.width
-            : otherWindow.size.y + otherWindow.size.height;
-
-        let windowMin = vertical
             ? window.size.x
             : window.size.y;
 
-        let windowMax = vertical
+        let otherWindowMax = vertical
             ? window.size.x + window.size.width
             : window.size.y + window.size.height;
+
+        let windowMin = vertical
+            ? focusWindow.size.x
+            : focusWindow.size.y;
+
+        let windowMax = vertical
+            ? focusWindow.size.x + focusWindow.size.width
+            : focusWindow.size.y + focusWindow.size.height;
 
         return windowMin < otherWindowMax && windowMax > otherWindowMin ||
             otherWindowMin < windowMax && otherWindowMax > windowMin;
@@ -188,7 +205,7 @@ function sortWindows(window, windows, vertical, direction) {
 
         calculatedwindows.push({
             window: otherWindow,
-            closeness: closeness - (max - min)
+            closeness: closeness + (max - min)
         });
     }
 

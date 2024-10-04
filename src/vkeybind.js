@@ -31,6 +31,7 @@ export default GObject.registerClass(
             this._keybinds = new KeyBinds();
 
             this._keybinds.registerKeybind(Settings.KEY_TILE, (this._tiler.tile).bind(this._tiler));
+            this._keybinds.registerKeybind(Settings.KEY_CENTER, (this._tiler.center).bind(this._tiler));
 
             this._keybinds.registerKeybind(Settings.KEY_FOCUS_RIGHT, (this._focuser.focusRight).bind(this._focuser));
             this._keybinds.registerKeybind(Settings.KEY_FOCUS_LEFT, (this._focuser.focusLeft).bind(this._focuser));

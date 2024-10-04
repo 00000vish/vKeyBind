@@ -11,6 +11,7 @@ export default class Settings {
     static WINDOW_MAX_ROWS = 'window-max-row-tiles';
 
     static KEY_TILE = "tile-hotkey";
+    static KEY_CENTER = "center-hotkey";
     static KEY_SWITCH_RIGHT = "switch-right-hotkey";
     static KEY_SWITCH_LEFT = "switch-left-hotkey";
     static KEY_SWITCH_UP = "switch-up-hotkey";
