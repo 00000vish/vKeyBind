@@ -32,26 +32,44 @@ export default GObject.registerClass(
             }
         }
 
-        center() {
-            function getRange(array) {
-                let min = Math.min.apply(null, array);
-                let max = Math.max.apply(null, array);
-                return max - min;
-            }
+        _getWindowGridSize(xValues, yValues) {
+            let minX = xValues.sort((a, b) => a - b)[0];
+            let maxX = xValues.sort((a, b) => a - b)[xValues.length - 1];
 
+            let minY = yValues.sort((a, b) => a - b)[0];
+            let maxY = yValues.sort((a, b) => a - b)[yValues.length - 1];
+
+            return {
+                x: minX,
+                y: minY,
+                width: (maxX - minX),
+                height: (maxY - minY)
+            };
+        }
+
+        center() {
             let window = windowHelper.getFocusedWindow();
             let workspace = windowHelper.getWorkspace(window);
-            let screenSize = screenHelper.getScreenSize(workspace);
+            let screen = screenHelper.getScreenSize(workspace);
             let windows = windowHelper.getWindowsInWorkspace(workspace, true);
 
-            let windowWidths = windows.map(x => x.size.width);
-            let windowHeights = windows.map(x => x.size.height);
+            if (windows.length == 0) {
+                return;
+            }
+            
+            let windowSizesX = windows.flatMap(x => [x.size.x, x.size.x + x.size.width]);
+            let windowSizesY = windows.flatMap(x => [x.size.y, x.size.y + x.size.height]);
 
-            let widthRange = getRange(windowWidths);
-            let heightRange = getRange(windowHeights);
+            let windowGrid = this._getWindowGridSize(windowSizesX, windowSizesY);
 
-            let offsetX = screenSize.x + (screenSize.width / 2) - (widthRange / 2);
-            let offsetY = screenSize.y + (screenSize.height / 2) - (heightRange / 2);
+            let screenCenterX = screen.x + (screen.width / 2);
+            let screenCenterY = screen.y + (screen.height / 2);
+
+            let windowCenterX = windowGrid.x + (windowGrid.width / 2);
+            let windowCenterY = windowGrid.y + (windowGrid.height / 2);
+
+            let offsetX = screenCenterX - windowCenterX;
+            let offsetY = screenCenterY - windowCenterY;
 
             for (let window of windows) {
 
