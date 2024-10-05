@@ -107,6 +107,12 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         );
         tileKeybindingsGroup.add(tilingKey);
 
+        const centeringKey = this._buildShortcutButtonRow(
+            Settings.KEY_CENTER,
+            'Center windows opened in current workspace.'
+        );
+        tileKeybindingsGroup.add(centeringKey);
+
         const focusKeybindingsGroup = new Adw.PreferencesGroup({
             title: 'Focus keybinds',
         });

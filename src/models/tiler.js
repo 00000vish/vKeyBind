@@ -31,22 +31,7 @@ export default GObject.registerClass(
                 this._defaultTile(workspace);
             }
         }
-
-        _getWindowGridSize(xValues, yValues) {
-            let minX = xValues.sort((a, b) => a - b)[0];
-            let maxX = xValues.sort((a, b) => a - b)[xValues.length - 1];
-
-            let minY = yValues.sort((a, b) => a - b)[0];
-            let maxY = yValues.sort((a, b) => a - b)[yValues.length - 1];
-
-            return {
-                x: minX,
-                y: minY,
-                width: (maxX - minX),
-                height: (maxY - minY)
-            };
-        }
-
+    
         center() {
             let window = windowHelper.getFocusedWindow();
             let workspace = windowHelper.getWorkspace(window);
@@ -186,6 +171,24 @@ export default GObject.registerClass(
                 windowHelper.resizeWindow(window, ultraWideSize);
                 return;
             }
+        }
+        
+        _getWindowGridSize(valuesX, valuesY) {
+            let sortedValuesX = valuesX.sort((a, b) => a - b);
+            let sortedValuesY = valuesY.sort((a, b) => a - b);
+
+            let minX = sortedValuesX[0];
+            let maxX = sortedValuesX[valuesX.length - 1];
+
+            let minY = sortedValuesY[0];
+            let maxY = sortedValuesY[valuesY.length - 1];
+
+            return {
+                x: minX,
+                y: minY,
+                width: (maxX - minX),
+                height: (maxY - minY)
+            };
         }
 
         destroy() {
