@@ -86,7 +86,7 @@ export function focusWindow(window) {
 
 export function getNearbyWindows(window, direction, strict = true) {
     let windows = getNearbyWindowsInner(window, true, direction);
-    if (windows.length === 0  && !strict) {
+    if (windows.length === 0 && !strict) {
         windows = getWindowsInWorkspace(window, false, direction);
     }
     return windows;
@@ -97,7 +97,7 @@ function getNearbyWindowsInner(window, activeMonitorOnly, direction) {
     let windows = getWindowsInWorkspace(workspace, activeMonitorOnly);
     windows = windows.filter(x => x.ref.get_id() !== window.ref.get_id());
     windows = filterWindowDirection(window, windows, direction);
-    return sortWindows(window,windows , direction);
+    return sortWindows(window, windows, direction);
 }
 
 function filterWindowDirection(focusWindow, windows, direction) {
@@ -124,14 +124,14 @@ function getWindowEdgePoint(window, direction) {
     }
 
     switch (direction) {
-        case Direction.Up:
-            return [getMiddle(window.size.x, window.size.width), window.size.y];
         case Direction.Down:
+            return [getMiddle(window.size.x, window.size.width), window.size.y];
+        case Direction.Up:
             return [getMiddle(window.size.x, window.size.width), (window.size.y + window.size.height)];
         case Direction.Left:
-            return [window.size.x, getMiddle(window.size.y, window.size.height)];
-        case Direction.Right:
             return [(window.size.x + window.size.width), getMiddle(window.size.y, window.size.height)];
+        case Direction.Right:
+            return [window.size.x, getMiddle(window.size.y, window.size.height)];
     }
 
     return [window.size.x, window.size.y];
@@ -156,5 +156,5 @@ function sortWindows(focusWindow, windows, direction) {
         });
     }
 
-    return calculatedWindows.sort((a,b)=> a.distance - b.distance).map(x => x.window);
+    return calculatedWindows.sort((a, b) => a.distance - b.distance).map(x => x.window);
 }
