@@ -42,12 +42,12 @@ export default GObject.registerClass(
             let currentWindowSize = window.size;
             let otherWindowSize = windows[0].size;
 
-            if (direction === Direction.Up || direction === Direction.Down) {
-                currentWindowSize.y = direction > 0
+            if (Direction.isVertical(direction)) {
+                currentWindowSize.y = direction === Direction.Down
                     ? otherWindowSize.y - currentWindowSize.height
                     : otherWindowSize.y + otherWindowSize.height;
             } else {
-                currentWindowSize.x = direction > 0
+                currentWindowSize.x = direction === Direction.Right
                     ? otherWindowSize.x - currentWindowSize.width
                     : otherWindowSize.x + otherWindowSize.width;
             }
@@ -56,7 +56,7 @@ export default GObject.registerClass(
         }
 
         _getNearBySnapableWindow(window, direction) {
-            let windows = windowHelper.getNearbyWindows(window, direction, true);
+            let windows = windowHelper.getNearbyWindows(window, direction);
             if (windows.length === 0) {
                 return windows;
             }
@@ -69,7 +69,24 @@ export default GObject.registerClass(
                     return false;
                 }
 
-                return true;
+                let otherWindowMin = Direction.isVertical(direction)
+                    ? otherWindow.size.x
+                    : otherWindow.size.y;
+
+                let otherWindowMax = Direction.isVertical(direction)
+                    ? otherWindow.size.x + otherWindow.size.width
+                    : otherWindow.size.y + otherWindow.size.height;
+
+                let windowMin = Direction.isVertical(direction)
+                    ? window.size.x
+                    : window.size.y;
+
+                let windowMax = Direction.isVertical(direction)
+                    ? window.size.x + window.size.width
+                    : window.size.y + window.size.height;
+
+                return windowMin < otherWindowMax && windowMax > otherWindowMin ||
+                    otherWindowMin < windowMax && otherWindowMax > windowMin;
             });
 
             return windows;
@@ -79,8 +96,8 @@ export default GObject.registerClass(
             let workspace = windowHelper.getWorkspace(window);
             let screenSize = screenHelper.getScreenSize(workspace);
 
-            if (direction === Direction.Up || direction === Direction.Down) {
-                window.size.y = direction === Direction.Down
+            if (Direction.isVertical(direction)) {
+                window.size.y = direction === Direction.Up
                     ? screenSize.y
                     : screenSize.y + screenSize.height - window.size.height;
             } else {

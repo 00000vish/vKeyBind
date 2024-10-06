@@ -84,21 +84,20 @@ export function focusWindow(window) {
     window.ref.unmake_above();
 }
 
-export function getNearbyWindows(window, direction, strict = false) {
+export function getNearbyWindows(window, direction, strict = true) {
+    let windows = getNearbyWindowsInner(window, true, direction);
+    if (windows.length === 0  && !strict) {
+        windows = getWindowsInWorkspace(window, false, direction);
+    }
+    return windows;
+}
+
+function getNearbyWindowsInner(window, activeMonitorOnly, direction) {
     let workspace = getWorkspace(window);
-    let allWindows = getWindowsInWorkspace(workspace, false);
-
-    allWindows = allWindows.filter(x => x.ref.get_id() !== window.ref.get_id());
-    if (allWindows.length === 0) {
-        return allWindows;
-    }
-
-    let filteredWindows = filterWindowDirection(window, allWindows, direction);
-    if (filteredWindows.length === 0  && !strict) {
-        filteredWindows = allWindows;
-    }
-    
-    return sortWindows(window, filteredWindows, direction);
+    let windows = getWindowsInWorkspace(workspace, activeMonitorOnly);
+    windows = windows.filter(x => x.ref.get_id() !== window.ref.get_id());
+    windows = filterWindowDirection(window, windows, direction);
+    return sortWindows(window,windows , direction);
 }
 
 function filterWindowDirection(focusWindow, windows, direction) {
@@ -141,7 +140,7 @@ function getWindowEdgePoint(window, direction) {
 function sortWindows(focusWindow, windows, direction) {
     let calculatedWindows = [];
 
-    let [focusX, focusY] = getWindowEdgePoint(focusWindow, Direction.opposite(direction));
+    let [focusX, focusY] = getWindowEdgePoint(focusWindow, Direction.getOpposite(direction));
 
     for (let otherWindow of windows) {
 

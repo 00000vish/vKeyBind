@@ -29,7 +29,7 @@ export default GObject.registerClass(
 
         _switch(direction) {
             let window = windowHelper.getFocusedWindow();
-            let windows = windowHelper.getNearbyWindows(window, direction, true);
+            let windows = windowHelper.getNearbyWindows(window, direction);
             if (windows.length === 0) {
                 return;
             }
@@ -53,7 +53,7 @@ export default GObject.registerClass(
                 [sizeA, sizeB] = [sizeB, sizeA]
             }
 
-            if (direction === Direction.Up || direction === Direction.Down) {
+            if (Direction.isVertical(direction)) {
                 sizeA.y = sizeB.y
                 sizeB.y = sizeA.y + sizeA.height;
             } else {

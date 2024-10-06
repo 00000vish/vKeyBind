@@ -32,7 +32,7 @@ export default GObject.registerClass(
                 return;
             }
 
-            let windows = windowHelper.getNearbyWindows(window, direction);
+            let windows = windowHelper.getNearbyWindows(window, direction, false);
             if (window.length === 0) {
                 return;
             }

@@ -39,7 +39,7 @@ export default GObject.registerClass(
             let screenSize = screenHelper.getScreenSize(workspace);
             let windowSize = window.size;
 
-            if (direction === Direction.Up || direction === Direction.Down) {
+            if (Direction.isVertical(direction)) {
                 windowSize.y += amount;
             } else {
                 windowSize.x += amount;
@@ -58,7 +58,7 @@ export default GObject.registerClass(
 
             windowHelper.resizeWindow(window, windowSize);
         }
-        
+
         _getWindowAdjustValue(direction) {
             let adjust = direction === Direction.Up || direction == Direction.Left ? -1 : 1;
             return Settings.getResizeAmount() * adjust;
