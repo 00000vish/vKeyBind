@@ -26,10 +26,10 @@
             <summary>Maximum rows of tiled windows.</summary>
             <description>Maximum rows of tiled windows.</description>
         </key>
-        <key name="window-resize-amount" type="u">
+        <key name="window-adjust-amount" type="u">
             <default>15</default>
-            <summary>Window resize amount.</summary>
-            <description>Window resize amount.</description>
+            <summary>Window adjust amount.</summary>
+            <description>Window adjust amount.</description>
         </key>
         <key name="original-size-mode" type="b">
             <default>true</default>

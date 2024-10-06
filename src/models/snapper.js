@@ -1,4 +1,6 @@
 import GObject from 'gi://GObject';
+
+import Direction from '../enums/direction.js';
 import * as windowHelper from '../helpers/window.js'
 import * as screenHelper from '../helpers/screen.js'
 
@@ -10,37 +12,37 @@ export default GObject.registerClass(
         }
 
         snapRight() {
-            this._snap(1, false);
+            this._snap(Direction.Right);
         }
 
         snapLeft() {
-            this._snap(-1, false);
+            this._snap(Direction.Left);
         }
 
         snapUp() {
-            this._snap(-1, true);
+            this._snap(Direction.Up);
         }
 
         snapDown() {
-            this._snap(1, true);
+            this._snap(Direction.Down);
         }
 
-        _snap(direction, vertical) {
-            let [currentWindowIndex, windows] = this._getNearBySnapableWindow(vertical, direction);
-
-            let otherWindowIndex = currentWindowIndex + direction;
-
-            if (otherWindowIndex < 0 || otherWindowIndex >= windows.length) {
-                this._snapToScreenEdge(direction, vertical, windows[currentWindowIndex])
+        _snap(direction) {
+            let window = windowHelper.getFocusedWindow();
+            if (!window) {
                 return;
             }
 
-            let currentWindow = windows[currentWindowIndex];
+            let windows = this._getNearBySnapableWindow(window, direction);
+            if (windows.length === 0) {
+                this._snapToScreenEdge(direction, window)
+                return;
+            }
 
-            let otherWindowSize = windows[otherWindowIndex].size;
-            let currentWindowSize = windows[currentWindowIndex].size;
+            let currentWindowSize = window.size;
+            let otherWindowSize = windows[0].size;
 
-            if (vertical) {
+            if (direction === Direction.Up || direction === Direction.Down) {
                 currentWindowSize.y = direction > 0
                     ? otherWindowSize.y - currentWindowSize.height
                     : otherWindowSize.y + otherWindowSize.height;
@@ -50,44 +52,39 @@ export default GObject.registerClass(
                     : otherWindowSize.x + otherWindowSize.width;
             }
 
-            windowHelper.resizeWindow(currentWindow, currentWindowSize);
+            windowHelper.resizeWindow(window, currentWindowSize);
         }
 
-        _getNearBySnapableWindow(vertical, direction) {
-            let window = windowHelper.getFocusedWindow();
-            let [windowIndex, windows] = windowHelper.getNearbyWindows(window, vertical, direction, true);
-            let windowInfo = windows[windowIndex];
+        _getNearBySnapableWindow(window, direction) {
+            let windows = windowHelper.getNearbyWindows(window, direction, true);
+            if (windows.length === 0) {
+                return windows;
+            }
 
-            windows = windows.filter(x => {
-                if (x === windowInfo) {
-                    return true;
-                }
-
-                if (Math.abs(windowInfo.size.x - (x.size.x + x.size.width)) === 0 ||
-                    Math.abs((windowInfo.size.x + windowInfo.size.width) - x.size.x) === 0 ||
-                    Math.abs(windowInfo.size.y - (x.size.y + x.size.height)) === 0 ||
-                    Math.abs((windowInfo.size.y + windowInfo.size.height) - x.size.y) === 0) {
+            windows = windows.filter(otherWindow => {
+                if (Math.abs(window.size.x - (otherWindow.size.x + otherWindow.size.width)) === 0 ||
+                    Math.abs((window.size.x + window.size.width) - otherWindow.size.x) === 0 ||
+                    Math.abs(window.size.y - (otherWindow.size.y + otherWindow.size.height)) === 0 ||
+                    Math.abs((window.size.y + window.size.height) - otherWindow.size.y) === 0) {
                     return false;
                 }
 
                 return true;
             });
 
-            windowIndex = windows.indexOf(windowInfo);
-
-            return [windowIndex, windows];
+            return windows;
         }
 
-        _snapToScreenEdge(direction, vertical, window) {
+        _snapToScreenEdge(direction, window) {
             let workspace = windowHelper.getWorkspace(window);
             let screenSize = screenHelper.getScreenSize(workspace);
 
-            if (vertical) {
-                window.size.y = direction < 0
+            if (direction === Direction.Up || direction === Direction.Down) {
+                window.size.y = direction === Direction.Down
                     ? screenSize.y
                     : screenSize.y + screenSize.height - window.size.height;
             } else {
-                window.size.x = direction < 0
+                window.size.x = direction === Direction.Left
                     ? screenSize.x
                     : screenSize.x + screenSize.width - window.size.width;
             }

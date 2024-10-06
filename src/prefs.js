@@ -46,12 +46,12 @@ export default class TilingShellExtensionPreferences extends ExtensionPreference
         );
         settingGroup.add(keepOriginalSizeSwitch);
 
-        const resizeAmountRow = this._buildSpinButtonRow(
-            Settings.WINDOW_RESIZE_AMOUNT,
+        const windowAdjustRow = this._buildSpinButtonRow(
+            Settings.WINDOW_ADJUST_AMOUNT,
             'Window adjustment',
             'Window adjustment amount',
         );
-        settingGroup.add(resizeAmountRow);
+        settingGroup.add(windowAdjustRow);
 
         const tileGroup = new Adw.PreferencesGroup({
             title: 'Tiling Settings',

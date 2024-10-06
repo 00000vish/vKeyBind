@@ -1,4 +1,6 @@
 import GObject from 'gi://GObject';
+
+import Direction from '../enums/direction.js';
 import * as windowHelper from '../helpers/window.js'
 
 export default GObject.registerClass(
@@ -9,33 +11,33 @@ export default GObject.registerClass(
         }
 
         focusRight() {
-            this._focus(1, false);
+            this._focus(Direction.Right);
         }
 
         focusLeft() {
-            this._focus(-1, false);
+            this._focus(Direction.Left);
         }
 
         focusUp() {
-            this._focus(-1, true);
+            this._focus(Direction.Up);
         }
 
         focusDown() {
-            this._focus(1, true);
+            this._focus(Direction.Down);
         }
 
-        _focus(direction, vertical) {
+        _focus(direction) {
             let window = windowHelper.getFocusedWindow();
-
-            let [currentWindowIndex, windows] = windowHelper.getNearbyWindows(window, vertical, direction);
-
-            let otherWindowIndex = currentWindowIndex + direction;
-
-            if (otherWindowIndex < 0 || otherWindowIndex >= windows.length) {
+            if (!window) {
                 return;
             }
 
-            windowHelper.focusWindow(windows[otherWindowIndex]);
+            let windows = windowHelper.getNearbyWindows(window, direction);
+            if (window.length === 0) {
+                return;
+            }
+
+            windowHelper.focusWindow(windows[0]);
         }
 
         destroy() { }

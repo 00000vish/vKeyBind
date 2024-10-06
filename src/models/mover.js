@@ -1,4 +1,6 @@
 import GObject from 'gi://GObject';
+
+import Direction from '../enums/direction.js';
 import Settings from '../helpers/settings.js';
 import * as windowHelper from '../helpers/window.js'
 import * as screenHelper from '../helpers/screen.js'
@@ -11,35 +13,33 @@ export default GObject.registerClass(
         }
 
         moveRight() {
-            this._move(1, false);
+            this._move(Direction.Right);
         }
 
         moveLeft() {
-            this._move(-1, false);
+            this._move(Direction.Left);
         }
 
         moveUp() {
-            this._move(-1, true);
+            this._move(Direction.Up);
         }
 
         moveDown() {
-            this._move(1, true);
+            this._move(Direction.Down);
         }
 
-        _move(direction, vertical) {
+        _move(direction) {
             let window = windowHelper.getFocusedWindow();
             if (!window) {
                 return;
             }
 
+            let amount = this._getWindowAdjustValue(direction);
             let workspace = windowHelper.getWorkspace(window);
-
             let screenSize = screenHelper.getScreenSize(workspace);
             let windowSize = window.size;
 
-            let amount = Settings.getResizeAmount() * direction;
-
-            if (vertical) {
+            if (direction === Direction.Up || direction === Direction.Down) {
                 windowSize.y += amount;
             } else {
                 windowSize.x += amount;
@@ -57,6 +57,11 @@ export default GObject.registerClass(
                 : windowSize.y;
 
             windowHelper.resizeWindow(window, windowSize);
+        }
+        
+        _getWindowAdjustValue(direction) {
+            let adjust = direction === Direction.Up || direction == Direction.Left ? -1 : 1;
+            return Settings.getResizeAmount() * adjust;
         }
 
         destroy() { }

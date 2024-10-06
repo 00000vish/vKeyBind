@@ -1,4 +1,5 @@
 import GObject from 'gi://GObject';
+
 import Settings from '../helpers/settings.js';
 import * as windowHelper from '../helpers/window.js'
 import * as screenHelper from '../helpers/screen.js'

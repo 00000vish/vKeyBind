@@ -6,7 +6,7 @@ export default class Settings {
     static GRID_TILE_MODE = 'grid-tile-mode';
     static ORIGINAL_SIZE_MODE = "original-size-mode";
 
-    static WINDOW_RESIZE_AMOUNT = 'window-resize-amount';
+    static WINDOW_ADJUST_AMOUNT = 'window-adjust-amount';
     static WINDOW_MAX_COLUMNS = 'window-max-column-tiles';
     static WINDOW_MAX_ROWS = 'window-max-row-tiles';
 
@@ -82,7 +82,7 @@ export default class Settings {
         if (!this._settings)
             return 4;
 
-        return this._settings?.get_uint(this.WINDOW_RESIZE_AMOUNT);
+        return this._settings?.get_uint(this.WINDOW_ADJUST_AMOUNT);
     }
 
     static getMaxColumns() {
