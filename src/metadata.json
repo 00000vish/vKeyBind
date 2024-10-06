@@ -4,6 +4,5 @@
     "uuid": "vkeybind@00000vish",
     "shell-version": ["46", "47"],
     "url": "https://github.com/00000vish/vkeybind",
-    "settings-schema": "org.gnome.shell.extensions.vkeybind",
-    "version": 10
+    "settings-schema": "org.gnome.shell.extensions.vkeybind"
 }
