@@ -87,7 +87,7 @@ export function focusWindow(window) {
 export function getNearbyWindows(window, direction, strict = true) {
     let windows = getNearbyWindowsInner(window, true, direction);
     if (windows.length === 0 && !strict) {
-        windows = getWindowsInWorkspace(window, false, direction);
+        windows = getNearbyWindowsInner(window, false, direction);
     }
     return windows;
 }
