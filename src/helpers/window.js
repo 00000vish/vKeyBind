@@ -95,13 +95,13 @@ function filterWindowDirection(focusWindow, windows, direction) {
     let filterCallback = (otherWindow) => {
         switch (direction) {
             case Direction.Up:
-                return otherWindow.size.y <= focusWindow.size.y;
+                return otherWindow.size.y < focusWindow.size.y;
             case Direction.Down:
-                return otherWindow.size.y >= focusWindow.size.y;
+                return otherWindow.size.y > focusWindow.size.y;
             case Direction.Left:
-                return otherWindow.size.x <= focusWindow.size.x;
+                return otherWindow.size.x < focusWindow.size.x;
             case Direction.Right:
-                return otherWindow.size.x >= focusWindow.size.x;
+                return otherWindow.size.x > focusWindow.size.x;
         }
         return false;
     };
