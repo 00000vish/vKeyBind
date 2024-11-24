@@ -1,5 +1,4 @@
 import Meta from 'gi://Meta';
-
 import Direction from '../enums/direction.js';
 
 export function getFocusedWindow() {
@@ -98,11 +97,11 @@ function filterWindowDirection(focusWindow, windows, direction) {
             case Direction.Up:
                 return otherWindow.size.y <= focusWindow.size.y;
             case Direction.Down:
-                return otherWindow.size.y >= (focusWindow.size.y + focusWindow.size.height) * 1;
+                return otherWindow.size.y >= focusWindow.size.y;
             case Direction.Left:
                 return otherWindow.size.x <= focusWindow.size.x;
             case Direction.Right:
-                return otherWindow.size.x >= (focusWindow.size.x + focusWindow.size.width) * 1;
+                return otherWindow.size.x >= focusWindow.size.x;
         }
         return false;
     };
@@ -110,32 +109,17 @@ function filterWindowDirection(focusWindow, windows, direction) {
     return windows.filter(filterCallback);
 }
 
-function getWindowEdgePoint(window, direction) {
-    function getMiddle(start, size) {
-        return start + size / 2;
-    }
-
-    switch (direction) {
-        case Direction.Down:
-            return [getMiddle(window.size.x, window.size.width), window.size.y];
-        case Direction.Up:
-            return [getMiddle(window.size.x, window.size.width), window.size.y + window.size.height];
-        case Direction.Left:
-            return [window.size.x + window.size.width, getMiddle(window.size.y, window.size.height)];
-        case Direction.Right:
-            return [window.size.x, getMiddle(window.size.y, window.size.height)];
-    }
-
+function getWindowPoint(window) {
     return [window.size.x, window.size.y];
 }
 
-function sortWindows(focusWindow, windows, direction) {
+function sortWindows(focusWindow, windows) {
     let calculatedWindows = [];
 
-    let [focusX, focusY] = getWindowEdgePoint(focusWindow, Direction.getOpposite(direction));
+    let [focusX, focusY] = getWindowPoint(focusWindow);
 
     for (let otherWindow of windows) {
-        let [otherX, otherY] = getWindowEdgePoint(otherWindow, direction);
+        let [otherX, otherY] = getWindowPoint(otherWindow);
 
         let valueOne = Math.pow(otherX - focusX, 2);
         let valueTwo = Math.pow(otherY - focusY, 2);
