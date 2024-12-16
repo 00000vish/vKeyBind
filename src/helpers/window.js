@@ -2,16 +2,22 @@ import Meta from 'gi://Meta';
 import Direction from '../enums/direction.js';
 
 export function getFocusedWindow() {
-    var window = global.display.get_focus_window();
+    let window = global.display.get_focus_window();
+
+    return initalizeWindow(window);
+}
+
+export function initalizeWindow(window) {
+    let size = window.get_frame_rect();
+    let actor = window.get_compositor_private();
+    let workspace = window.get_workspace();
 
     return {
         ref: window,
-        size: window.get_frame_rect(),
+        size: size,
+        actor: actor,
+        workspace: workspace,
     };
-}
-
-export function getWorkspace(window) {
-    return window.ref.get_workspace();
 }
 
 export function getWindowsInWorkspace(workspace, activeMonitorOnly) {
@@ -36,12 +42,14 @@ export function getWindowsInWorkspace(workspace, activeMonitorOnly) {
 }
 
 export function invokeOnWinowReady(window, callback) {
-    let windowActor = window.ref.get_compositor_private();
+    let windowActor = window.actor;
     windowActor.remove_all_transitions();
 
     let signal = windowActor.connect(
         'first-frame',
         ((_) => {
+            window = initalizeWindow(window.ref);
+
             callback(window);
 
             windowActor.disconnect(signal);
@@ -84,11 +92,11 @@ export function getNearbyWindows(window, direction, strict = true) {
 }
 
 function getNearbyWindowsInner(window, activeMonitorOnly, direction) {
-    let workspace = getWorkspace(window);
+    let workspace = window.workspace;
     let windows = getWindowsInWorkspace(workspace, activeMonitorOnly);
     windows = windows.filter((x) => x.ref.get_id() !== window.ref.get_id());
     windows = filterWindowDirection(window, windows, direction);
-    return sortWindows(window, windows, direction);
+    return sortWindows(direction, window, windows);
 }
 
 function filterWindowDirection(focusWindow, windows, direction) {
@@ -109,17 +117,32 @@ function filterWindowDirection(focusWindow, windows, direction) {
     return windows.filter(filterCallback);
 }
 
-function getWindowPoint(window) {
+function getWindowPoint(direction, window) {
+    function getMiddle(start, size) {
+        return start + size / 2;
+    }
+
+    switch (direction) {
+        case Direction.Up:
+            return [getMiddle(window.size.x, window.size.width), window.size.y];
+        case Direction.Down:
+            return [getMiddle(window.size.x, window.size.width), window.size.y + window.size.height];
+        case Direction.Right:
+            return [window.size.x + window.size.width, getMiddle(window.size.y, window.size.height)];
+        case Direction.Left:
+            return [window.size.x, getMiddle(window.size.y, window.size.height)];
+    }
+
     return [window.size.x, window.size.y];
 }
 
-function sortWindows(focusWindow, windows) {
+function sortWindows(direction, focusWindow, windows) {
     let calculatedWindows = [];
 
-    let [focusX, focusY] = getWindowPoint(focusWindow);
+    let [focusX, focusY] = getWindowPoint(direction, focusWindow);
 
     for (let otherWindow of windows) {
-        let [otherX, otherY] = getWindowPoint(otherWindow);
+        let [otherX, otherY] = getWindowPoint(Direction.getOpposite(direction), otherWindow);
 
         let valueOne = Math.pow(otherX - focusX, 2);
         let valueTwo = Math.pow(otherY - focusY, 2);

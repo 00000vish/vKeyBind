@@ -2,14 +2,13 @@ import GObject from 'gi://GObject';
 
 import Direction from '../enums/direction.js';
 import Settings from '../helpers/settings.js';
-import * as windowHelper from '../helpers/window.js'
-import * as screenHelper from '../helpers/screen.js'
+import * as windowHelper from '../helpers/window.js';
+import * as screenHelper from '../helpers/screen.js';
 
 export default GObject.registerClass(
     class Mover extends GObject.Object {
-
         constructor() {
-            super()
+            super();
         }
 
         moveRight() {
@@ -35,7 +34,7 @@ export default GObject.registerClass(
             }
 
             let amount = this._getWindowAdjustValue(direction);
-            let workspace = windowHelper.getWorkspace(window);
+            let workspace = window.workspace;
             let screenSize = screenHelper.getScreenSize(workspace);
             let windowSize = window.size;
 
@@ -48,13 +47,15 @@ export default GObject.registerClass(
             windowSize.x = windowSize.x < screenSize.x ? screenSize.x : windowSize.x;
             windowSize.y = windowSize.y < screenSize.y ? screenSize.y : windowSize.y;
 
-            windowSize.x = windowSize.x + windowSize.width > screenSize.x + screenSize.width
-                ? screenSize.x + screenSize.width - windowSize.width
-                : windowSize.x;
+            windowSize.x =
+                windowSize.x + windowSize.width > screenSize.x + screenSize.width
+                    ? screenSize.x + screenSize.width - windowSize.width
+                    : windowSize.x;
 
-            windowSize.y = windowSize.y + windowSize.height > screenSize.y + screenSize.height
-                ? screenSize.y + screenSize.height - windowSize.height
-                : windowSize.y;
+            windowSize.y =
+                windowSize.y + windowSize.height > screenSize.y + screenSize.height
+                    ? screenSize.y + screenSize.height - windowSize.height
+                    : windowSize.y;
 
             windowHelper.resizeWindow(window, windowSize);
         }
@@ -64,6 +65,6 @@ export default GObject.registerClass(
             return Settings.getResizeAmount() * adjust;
         }
 
-        destroy() { }
+        destroy() {}
     }
 );

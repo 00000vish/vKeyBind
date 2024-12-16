@@ -1,14 +1,13 @@
 import GObject from 'gi://GObject';
 
 import Settings from '../helpers/settings.js';
-import * as windowHelper from '../helpers/window.js'
-import * as screenHelper from '../helpers/screen.js'
+import * as windowHelper from '../helpers/window.js';
+import * as screenHelper from '../helpers/screen.js';
 
 export default GObject.registerClass(
     class Resizer extends GObject.Object {
-
         constructor() {
-            super()
+            super();
         }
 
         shrinkX() {
@@ -33,10 +32,9 @@ export default GObject.registerClass(
                 return;
             }
 
-            let workspace = windowHelper.getWorkspace(window);
-
-            let screenSize = screenHelper.getScreenSize(workspace);
+            let workspace = window.workspace;
             let windowSize = window.size;
+            let screenSize = screenHelper.getScreenSize(workspace);
 
             let amount = Settings.getResizeAmount() * 10 * (grow ? 1 : -1);
 
@@ -63,6 +61,6 @@ export default GObject.registerClass(
             windowHelper.resizeWindow(window, windowSize);
         }
 
-        destroy() { }
+        destroy() {}
     }
 );

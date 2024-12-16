@@ -2,13 +2,12 @@ import GObject from 'gi://GObject';
 
 import Direction from '../enums/direction.js';
 import Settings from '../helpers/settings.js';
-import * as windowHelper from '../helpers/window.js'
+import * as windowHelper from '../helpers/window.js';
 
 export default GObject.registerClass(
     class Switcher extends GObject.Object {
-
         constructor() {
-            super()
+            super();
         }
 
         switchRight() {
@@ -30,7 +29,7 @@ export default GObject.registerClass(
         _switch(direction) {
             let window = windowHelper.getFocusedWindow();
             let windows = windowHelper.getNearbyWindows(window, direction);
-            if (windows.length === 0) {
+            if (!window || windows.length === 0) {
                 return;
             }
 
@@ -39,9 +38,9 @@ export default GObject.registerClass(
             let otherWindowSize = otherWindow.size;
 
             if (Settings.isKeepOriginalSize()) {
-                this._switchSizes(direction, windowSize, otherWindowSize)
+                this._switchSizes(direction, windowSize, otherWindowSize);
             } else {
-                [windowSize, otherWindowSize] = [otherWindowSize, windowSize]
+                [windowSize, otherWindowSize] = [otherWindowSize, windowSize];
             }
 
             windowHelper.resizeWindow(window, windowSize);
@@ -50,11 +49,11 @@ export default GObject.registerClass(
 
         _switchSizes(direction, sizeA, sizeB) {
             if (direction === Direction.Right || direction === Direction.Down) {
-                [sizeA, sizeB] = [sizeB, sizeA]
+                [sizeA, sizeB] = [sizeB, sizeA];
             }
 
             if (Direction.isVertical(direction)) {
-                sizeA.y = sizeB.y
+                sizeA.y = sizeB.y;
                 sizeB.y = sizeA.y + sizeA.height;
             } else {
                 sizeA.x = sizeB.x;
@@ -62,6 +61,6 @@ export default GObject.registerClass(
             }
         }
 
-        destroy() { }
+        destroy() {}
     }
 );

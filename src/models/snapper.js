@@ -94,7 +94,7 @@ export default GObject.registerClass(
         }
 
         _snapToScreenEdge(direction, window) {
-            let workspace = windowHelper.getWorkspace(window);
+            let workspace = window.workspace;
             let screenSize = screenHelper.getScreenSize(workspace);
 
             if (Direction.isVertical(direction)) {
@@ -108,6 +108,6 @@ export default GObject.registerClass(
             windowHelper.resizeWindow(window, window.size);
         }
 
-        destroy() { }
+        destroy() {}
     }
 );
