@@ -30,10 +30,10 @@ Gnome extension that allows user to focus, move, switch, resize windows like a t
 | META+CTRL+ALT+L  | Snap current window to the right. |
 | META+CTRL+ALT+J  | Snap current window to the down. |
 | META+CTRL+ALT+K  | Snap current window to the up. |
-| META+CTRL+H  | Shrink the focused window horizontally. |
-| META+CTRL+L  | Grow the focused window horizontally. |
-| META+CTRL+K  | Shrink the focused window vertically. |
-| META+CTRL+J  | Grow the focused window vertically. |
+| CTRL+ALT+H  | Shrink the focused window horizontally. |
+| CTRL+ALT+L  | Grow the focused window horizontally. |
+| CTRL+ALT+K  | Shrink the focused window vertically. |
+| CTRL+ALT+J  | Grow the focused window vertically. |
 
 ## Video Preview <a name="video"></a>
 
