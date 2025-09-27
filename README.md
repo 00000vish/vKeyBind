@@ -1,5 +1,9 @@
 # vKeyBind
 
+> [!WARNING]  
+> No longer maintained, please use https://extensions.gnome.org/extension/8588/window-tricks/ instead.
+
+
 Gnome extension that allows user to focus, move, switch, resize windows like a tiling window manager using keybinds, and also can maximize first opened window vertically and horizontally, or just vertically, or just center the first opened window. And also can tile windows in a grid.   
 
 ## Table of Contents
